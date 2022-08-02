@@ -1,0 +1,30 @@
+{
+    "name": "jeffrey-kroonen/bol-retailer-api-php",
+    "description": "A PHP Client to interact with the Bol.com Retailer API",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "7.4.x-dev"
+    },
+    "require-dev": {
+        "vimeo/psalm": "5.x-dev",
+        "phpstan/phpstan": "1.8.x-dev",
+        "friendsofphp/php-cs-fixer": "dev-master"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "JeffreyKroonen\\BolRetailer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JeffreyKroonen\\BolRetailer\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jeffrey Kroonen"
+        }
+    ],
+    "minimum-stability": "dev"
+}
