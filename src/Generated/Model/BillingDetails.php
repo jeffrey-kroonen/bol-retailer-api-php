@@ -1,0 +1,412 @@
+<?php
+
+namespace JeffreyKroonen\BolRetailer\Generated\Model;
+
+class BillingDetails
+{
+    /**
+     * The salutation of the customer.
+     *
+     * @var string
+     */
+    protected $salutation;
+    /**
+     * The first name of the customer.
+     *
+     * @var string
+     */
+    protected $firstName;
+    /**
+     * The surname of the customer.
+     *
+     * @var string
+     */
+    protected $surname;
+    /**
+     * The street name.
+     *
+     * @var string
+     */
+    protected $streetName;
+    /**
+     * The house number.
+     *
+     * @var string
+     */
+    protected $houseNumber;
+    /**
+     * The extension on the house number.
+     *
+     * @var string
+     */
+    protected $houseNumberExtension;
+    /**
+     * Additional information related to the address that helps in delivering the package.
+     *
+     * @var string
+     */
+    protected $extraAddressInformation;
+    /**
+     * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
+     *
+     * @var string
+     */
+    protected $zipCode;
+    /**
+     * The name of the city.
+     *
+     * @var string
+     */
+    protected $city;
+    /**
+     * The country code.
+     *
+     * @var string
+     */
+    protected $countryCode;
+    /**
+     * A scrambled email address that can be used to contact the customer.
+     *
+     * @var string
+     */
+    protected $email;
+    /**
+     * The company name.
+     *
+     * @var string
+     */
+    protected $company;
+    /**
+     * The Value Added Tax (VAT) / BTW number for business sellers situated in the Netherlands.
+     *
+     * @var string
+     */
+    protected $vatNumber;
+    /**
+     * The Kamer van Koophandel (kvk) number for organizations situated in the Netherlands or ondernemingsnummer for organizations situated in Belgium.
+     *
+     * @var string
+     */
+    protected $kvkNumber;
+    /**
+     * The order reference specified by the customer when ordering a product.
+     *
+     * @var string
+     */
+    protected $orderReference;
+    /**
+     * The salutation of the customer.
+     *
+     * @return string
+     */
+    public function getSalutation() : string
+    {
+        return $this->salutation;
+    }
+    /**
+     * The salutation of the customer.
+     *
+     * @param string $salutation
+     *
+     * @return self
+     */
+    public function setSalutation(string $salutation) : self
+    {
+        $this->salutation = $salutation;
+        return $this;
+    }
+    /**
+     * The first name of the customer.
+     *
+     * @return string
+     */
+    public function getFirstName() : string
+    {
+        return $this->firstName;
+    }
+    /**
+     * The first name of the customer.
+     *
+     * @param string $firstName
+     *
+     * @return self
+     */
+    public function setFirstName(string $firstName) : self
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+    /**
+     * The surname of the customer.
+     *
+     * @return string
+     */
+    public function getSurname() : string
+    {
+        return $this->surname;
+    }
+    /**
+     * The surname of the customer.
+     *
+     * @param string $surname
+     *
+     * @return self
+     */
+    public function setSurname(string $surname) : self
+    {
+        $this->surname = $surname;
+        return $this;
+    }
+    /**
+     * The street name.
+     *
+     * @return string
+     */
+    public function getStreetName() : string
+    {
+        return $this->streetName;
+    }
+    /**
+     * The street name.
+     *
+     * @param string $streetName
+     *
+     * @return self
+     */
+    public function setStreetName(string $streetName) : self
+    {
+        $this->streetName = $streetName;
+        return $this;
+    }
+    /**
+     * The house number.
+     *
+     * @return string
+     */
+    public function getHouseNumber() : string
+    {
+        return $this->houseNumber;
+    }
+    /**
+     * The house number.
+     *
+     * @param string $houseNumber
+     *
+     * @return self
+     */
+    public function setHouseNumber(string $houseNumber) : self
+    {
+        $this->houseNumber = $houseNumber;
+        return $this;
+    }
+    /**
+     * The extension on the house number.
+     *
+     * @return string
+     */
+    public function getHouseNumberExtension() : string
+    {
+        return $this->houseNumberExtension;
+    }
+    /**
+     * The extension on the house number.
+     *
+     * @param string $houseNumberExtension
+     *
+     * @return self
+     */
+    public function setHouseNumberExtension(string $houseNumberExtension) : self
+    {
+        $this->houseNumberExtension = $houseNumberExtension;
+        return $this;
+    }
+    /**
+     * Additional information related to the address that helps in delivering the package.
+     *
+     * @return string
+     */
+    public function getExtraAddressInformation() : string
+    {
+        return $this->extraAddressInformation;
+    }
+    /**
+     * Additional information related to the address that helps in delivering the package.
+     *
+     * @param string $extraAddressInformation
+     *
+     * @return self
+     */
+    public function setExtraAddressInformation(string $extraAddressInformation) : self
+    {
+        $this->extraAddressInformation = $extraAddressInformation;
+        return $this;
+    }
+    /**
+     * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
+     *
+     * @return string
+     */
+    public function getZipCode() : string
+    {
+        return $this->zipCode;
+    }
+    /**
+     * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
+     *
+     * @param string $zipCode
+     *
+     * @return self
+     */
+    public function setZipCode(string $zipCode) : self
+    {
+        $this->zipCode = $zipCode;
+        return $this;
+    }
+    /**
+     * The name of the city.
+     *
+     * @return string
+     */
+    public function getCity() : string
+    {
+        return $this->city;
+    }
+    /**
+     * The name of the city.
+     *
+     * @param string $city
+     *
+     * @return self
+     */
+    public function setCity(string $city) : self
+    {
+        $this->city = $city;
+        return $this;
+    }
+    /**
+     * The country code.
+     *
+     * @return string
+     */
+    public function getCountryCode() : string
+    {
+        return $this->countryCode;
+    }
+    /**
+     * The country code.
+     *
+     * @param string $countryCode
+     *
+     * @return self
+     */
+    public function setCountryCode(string $countryCode) : self
+    {
+        $this->countryCode = $countryCode;
+        return $this;
+    }
+    /**
+     * A scrambled email address that can be used to contact the customer.
+     *
+     * @return string
+     */
+    public function getEmail() : string
+    {
+        return $this->email;
+    }
+    /**
+     * A scrambled email address that can be used to contact the customer.
+     *
+     * @param string $email
+     *
+     * @return self
+     */
+    public function setEmail(string $email) : self
+    {
+        $this->email = $email;
+        return $this;
+    }
+    /**
+     * The company name.
+     *
+     * @return string
+     */
+    public function getCompany() : string
+    {
+        return $this->company;
+    }
+    /**
+     * The company name.
+     *
+     * @param string $company
+     *
+     * @return self
+     */
+    public function setCompany(string $company) : self
+    {
+        $this->company = $company;
+        return $this;
+    }
+    /**
+     * The Value Added Tax (VAT) / BTW number for business sellers situated in the Netherlands.
+     *
+     * @return string
+     */
+    public function getVatNumber() : string
+    {
+        return $this->vatNumber;
+    }
+    /**
+     * The Value Added Tax (VAT) / BTW number for business sellers situated in the Netherlands.
+     *
+     * @param string $vatNumber
+     *
+     * @return self
+     */
+    public function setVatNumber(string $vatNumber) : self
+    {
+        $this->vatNumber = $vatNumber;
+        return $this;
+    }
+    /**
+     * The Kamer van Koophandel (kvk) number for organizations situated in the Netherlands or ondernemingsnummer for organizations situated in Belgium.
+     *
+     * @return string
+     */
+    public function getKvkNumber() : string
+    {
+        return $this->kvkNumber;
+    }
+    /**
+     * The Kamer van Koophandel (kvk) number for organizations situated in the Netherlands or ondernemingsnummer for organizations situated in Belgium.
+     *
+     * @param string $kvkNumber
+     *
+     * @return self
+     */
+    public function setKvkNumber(string $kvkNumber) : self
+    {
+        $this->kvkNumber = $kvkNumber;
+        return $this;
+    }
+    /**
+     * The order reference specified by the customer when ordering a product.
+     *
+     * @return string
+     */
+    public function getOrderReference() : string
+    {
+        return $this->orderReference;
+    }
+    /**
+     * The order reference specified by the customer when ordering a product.
+     *
+     * @param string $orderReference
+     *
+     * @return self
+     */
+    public function setOrderReference(string $orderReference) : self
+    {
+        $this->orderReference = $orderReference;
+        return $this;
+    }
+}

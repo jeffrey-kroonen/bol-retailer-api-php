@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'json-schema-file' => __DIR__ . '/apispec.json',
+    'root-class' => 'MyModel',
+    'namespace' => 'JeffreyKroonen\BolRetailer\Generated',
+    'directory' => __DIR__ . '/src/Generated',
+];
