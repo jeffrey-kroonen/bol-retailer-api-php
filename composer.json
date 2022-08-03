@@ -3,12 +3,14 @@
     "description": "A PHP Client to interact with the Bol.com Retailer API",
     "type": "library",
     "require": {
-        "guzzlehttp/guzzle": "7.4.x-dev"
+        "guzzlehttp/guzzle": "7.4.x-dev",
+        "jane-php/json-schema-runtime": "7.x-dev"
     },
     "require-dev": {
         "vimeo/psalm": "5.x-dev",
         "phpstan/phpstan": "1.8.x-dev",
-        "friendsofphp/php-cs-fixer": "dev-master"
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "jane-php/json-schema": "7.x-dev"
     },
     "license": "MIT",
     "autoload": {
