@@ -10,7 +10,8 @@
         "vimeo/psalm": "5.x-dev",
         "phpstan/phpstan": "1.8.x-dev",
         "friendsofphp/php-cs-fixer": "dev-master",
-        "jane-php/json-schema": "7.x-dev"
+        "jane-php/json-schema": "7.x-dev",
+        "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
     "autoload": {
