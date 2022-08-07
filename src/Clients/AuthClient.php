@@ -83,7 +83,6 @@ class AuthClient extends BaseClient
 
     public function authenticate(): self
     {
-        // @todo Make a HTTP POST request to authenticate at Bol.com.
         $credentials = base64_encode("$this->bolClientId:$this->bolClientSecret");
         $response = $this->httpClient->post(self::AUTH_URL, [
             'headers' => [
@@ -94,6 +93,8 @@ class AuthClient extends BaseClient
                 'grant_type' => HeaderGrantTypes::CLIENT_CREDENTIALS->value,
             ],
         ]);
+
+        // @todo Anticipate on the HTTP Response code.
 
         $validated = $this->validateResponse($response);
 
