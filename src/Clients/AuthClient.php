@@ -102,6 +102,20 @@ class AuthClient extends BaseClient
         return $this;
     }
 
+    /**
+     * Determine if the application is authenticated.
+     *
+     * @return boolean
+     */
+    public function isAuthenticated(): bool
+    {
+        if (!isset($this->accessToken)) {
+            return false;
+        }
+
+        return $this->expiresIn > time();
+    }
+
     private function validateResponse($response): array
     {
         $responseBody = $this->httpClient->jsonDecodeBody($response);
