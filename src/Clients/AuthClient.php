@@ -84,17 +84,15 @@ class AuthClient extends BaseClient
     public function authenticate(): self
     {
         $credentials = base64_encode("$this->bolClientId:$this->bolClientSecret");
-        $response = $this->httpClient->post(self::AUTH_URL, [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BASIC->value, $credentials),
-            ],
-            'query' => [
-                'grant_type' => HeaderGrantTypes::CLIENT_CREDENTIALS->value,
-            ],
-        ]);
 
-        // @todo Anticipate on the HTTP Response code.
+        $response = $this->httpClient->setHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BASIC->value, $credentials),
+        ])
+        ->setQuery([
+            'grant_type' => HeaderGrantTypes::CLIENT_CREDENTIALS->value,
+        ])
+        ->post(self::AUTH_URL);
 
         $validated = $this->validateResponse($response);
 
@@ -106,7 +104,7 @@ class AuthClient extends BaseClient
 
     private function validateResponse($response): array
     {
-        $responseBody = $this->jsonDecodeBody($response);
+        $responseBody = $this->httpClient->jsonDecodeBody($response);
 
         // Validate the required response body fields.
         if (empty($responseBody['access_token'])) {
@@ -142,20 +140,5 @@ class AuthClient extends BaseClient
         }
 
         return $responseBody;
-    }
-
-    private function jsonDecodeBody(?ResponseInterface $response): array
-    {
-        if (is_null($response)) {
-            throw new ResponseException('No body received.');
-        }
-
-        $data = json_decode((string) $response->getBody(), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ResponseException('Body contains invalid JSON.');
-        }
-
-        return $data;
     }
 }

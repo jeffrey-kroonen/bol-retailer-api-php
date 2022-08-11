@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace JeffreyKroonen\BolRetailer\Tests\Clients;
 
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use JeffreyKroonen\BolRetailer\Clients\AuthClient;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Enums\ScopeTypes;
@@ -30,7 +28,7 @@ final class AuthClientTest extends TestCase
         $mockHandler = $this->mockSuccessResponseHandler();
 
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $shouldBeClient = $client->authenticate();
@@ -48,7 +46,7 @@ final class AuthClientTest extends TestCase
         $mockHandler = $this->mockSuccessResponseHandler();
 
         $client = (new AuthClient())->setBolClientSecret(self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -62,7 +60,7 @@ final class AuthClientTest extends TestCase
         // Given
         $mockHandler = $this->mockSuccessResponseHandler();
         $client = (new AuthClient())->setBolClientId(self::MOCK_CLIENT_ID);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -76,7 +74,7 @@ final class AuthClientTest extends TestCase
         // Given
         $mockHandler = $this->mockSuccessResponseHandler([]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -96,7 +94,7 @@ final class AuthClientTest extends TestCase
             'scope' => ScopeTypes::RETAILER->value,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -116,7 +114,7 @@ final class AuthClientTest extends TestCase
             'scope' => ScopeTypes::RETAILER->value,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -136,7 +134,7 @@ final class AuthClientTest extends TestCase
             'scope' => ScopeTypes::RETAILER->value,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -156,7 +154,7 @@ final class AuthClientTest extends TestCase
             'expires_in' => 299,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -177,7 +175,7 @@ final class AuthClientTest extends TestCase
             'scope' => ScopeTypes::RETAILER->value,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -198,7 +196,7 @@ final class AuthClientTest extends TestCase
             'scope' => 'mock_fake_scope',
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -219,7 +217,7 @@ final class AuthClientTest extends TestCase
             'scope' => ScopeTypes::RETAILER->value,
         ]);
         $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();

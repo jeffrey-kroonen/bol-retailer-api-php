@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Clients;
 
-use GuzzleHttp\Client as HttpClient;
-
 abstract class BaseClient
 {
     private const BASE_URL = 'https://api.bol.com';
@@ -28,9 +26,19 @@ abstract class BaseClient
     }
 
     /**
+     * Accessor for the httpClient property.
+     *
+     * @return HttpClient
+     */
+    public function getHttpClient(): HttpClient
+    {
+        return $this->httpClient;
+    }
+
+    /**
      * Mutator for the httpClient property.
      *
-     * @param HttpClient $httpClient The Guzzle HTTP client used for API calls.
+     * @param HttpClient $httpClient The Guzzle HTTP client wrapper used for API calls.
      * @return self
      */
     public function setHttpClient(HttpClient $httpClient): self
