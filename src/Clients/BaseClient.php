@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JeffreyKroonen\BolRetailer\Clients;
 
 abstract class BaseClient
@@ -9,73 +11,39 @@ abstract class BaseClient
     private const RETAILER_API_ENDPOINT = '/retailer';
 
     /**
-     * @var string
+     * @var HttpClient
      */
-    private string $bolClientId;
+    protected HttpClient $httpClient;
 
-    /**
-     * @var string
-     */
-    private string $bolClientSecret;
-
-    /**
-     * @var string
-     */
-    private string $accessToken;
-
-    /**
-     * The number of seconds when we have to get a new access token.
-     *
-     * @var integer
-     */
-    private int $expiresIn;
-
-    /**
-     * Create a new Client instance.
-     *
-     * @param string|null $bolClientId
-     * @param string|null $bolClientSecret
-     */
-    public function __construct(?string $bolClientId = null, ?string $bolClientSecret = null)
+    public function __construct()
     {
-        if (!is_null($bolClientId)) {
-            $this->setBolClientId($bolClientId);
-        }
+        $this->setHttpClient(new HttpClient());
+    }
 
-        if (!is_null($bolClientId)) {
-            $this->setBolClientSecret($bolClientSecret);
-        }
+    public function getRetailerEndpointUrl(): string
+    {
+        return self::BASE_URL . self::RETAILER_API_ENDPOINT;
     }
 
     /**
-     * Mutator for the bolClientId property
+     * Accessor for the httpClient property.
      *
-     * @param string $bolClientId
+     * @return HttpClient
+     */
+    public function getHttpClient(): HttpClient
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * Mutator for the httpClient property.
+     *
+     * @param HttpClient $httpClient The Guzzle HTTP client wrapper used for API calls.
      * @return self
      */
-    public function setBolClientId(string $bolClientId): self
+    public function setHttpClient(HttpClient $httpClient): self
     {
-        $this->bolClientId = $bolClientId;
-
-        return $this;
-    }
-
-    /**
-     * Mutator for the bolClientSecret property
-     *
-     * @param string $bolClientId
-     * @return self
-     */
-    public function setBolClientSecret(string $bolClientSecret): self
-    {
-        $this->bolClientSecret = $bolClientSecret;
-
-        return $this;
-    }
-
-    private function authenticate(): self
-    {
-        // @todo Make a HTTP POST request to authenticate at Bol.com.
+        $this->httpClient = $httpClient;
 
         return $this;
     }
