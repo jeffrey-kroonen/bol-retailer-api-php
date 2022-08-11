@@ -2,6 +2,23 @@
     "name": "jeffrey-kroonen/bol-retailer-api-php",
     "description": "A PHP Client to interact with the Bol.com Retailer API",
     "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "role": "Developer",
+            "name": "Jeffrey Kroonen"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JeffreyKroonen\\BolRetailer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JeffreyKroonen\\BolRetailer\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "guzzlehttp/guzzle": "7.4.x-dev",
         "jane-php/json-schema-runtime": "7.x-dev",
@@ -14,21 +31,10 @@
         "jane-php/json-schema": "7.x-dev",
         "phpunit/phpunit": "^9.5"
     },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "JeffreyKroonen\\BolRetailer\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "JeffreyKroonen\\BolRetailer\\Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Jeffrey Kroonen"
-        }
-    ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "conifg": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
 }
