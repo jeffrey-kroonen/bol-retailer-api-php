@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Clients;
+namespace JeffreyKroonen\BolRetailer\Utilities;
 
-use Clients\ServerException;
 use Exceptions\NotFoundException;
 use Exceptions\RateLimitException;
 use Exceptions\UnauthorizedException;
-use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
 use Psr\Http\Message\ResponseInterface;
+use ServerException;
 
-class HttpClient
+class Http
 {
     /**
      * @var HttpClient
      */
-    protected GuzzleHttpClient $guzzleHttpClient;
+    protected HttpClient $httpClient;
 
     /**
      * @var ?array $headers
@@ -33,18 +33,18 @@ class HttpClient
 
     public function __construct()
     {
-        $this->setGuzzleHttpClient(new GuzzleHttpClient());
+        $this->setHttpClient(new HttpClient());
     }
 
     /**
      * Mutator for the httpClient property.
      *
-     * @param GuzzleHttpClient $guzzleHttpClient The Guzzle HTTP client used for API calls.
+     * @param HttpClient $httpClient The Guzzle HTTP client used for API calls.
      * @return self
      */
-    public function setGuzzleHttpClient(GuzzleHttpClient $guzzleHttpClient): self
+    public function setHttpClient(HttpClient $httpClient): self
     {
-        $this->guzzleHttpClient = $guzzleHttpClient;
+        $this->httpClient = $httpClient;
 
         return $this;
     }
@@ -90,7 +90,7 @@ class HttpClient
     public function post(string $url, $body = []): Response
     {
         try {
-            $response = $this->guzzleHttpClient->post($url, [
+            $response = $this->httpClient->post($url, [
                 'headers' => $this->headers,
                 'query' => $this->query,
             ]);
