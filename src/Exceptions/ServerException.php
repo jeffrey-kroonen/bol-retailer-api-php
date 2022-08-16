@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Clients;
+namespace JeffreyKroonen\BolRetailer\Exceptions;
 
 use Exception;
 
 class ServerException extends Exception
 {
+    //
 }

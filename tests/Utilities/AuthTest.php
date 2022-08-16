@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Tests\Clients;
+namespace JeffreyKroonen\BolRetailer\Tests\Utilities;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
-use JeffreyKroonen\BolRetailer\Clients\AuthClient;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Enums\ScopeTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
 use JeffreyKroonen\BolRetailer\Tests\Concerns\AuthMock;
+use JeffreyKroonen\BolRetailer\Utilities\Auth;
 use PHPUnit\Framework\TestCase;
 
-final class AuthClientTest extends TestCase
+final class AuthTest extends TestCase
 {
     use AuthMock;
 
@@ -27,14 +27,14 @@ final class AuthClientTest extends TestCase
         // Given
         $mockHandler = $this->mockSuccessResponseHandler();
 
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $shouldBeClient = $client->authenticate();
 
         // Then
-        $this->assertInstanceOf(AuthClient::class, $shouldBeClient);
+        $this->assertInstanceOf(Auth::class, $shouldBeClient);
     }
 
     public function testAuthenticationShouldFailWhenBolclientidIsNotSet(): void
@@ -45,8 +45,8 @@ final class AuthClientTest extends TestCase
         // Given
         $mockHandler = $this->mockSuccessResponseHandler();
 
-        $client = (new AuthClient())->setBolClientSecret(self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = (new Auth())->setBolClientSecret(self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -59,8 +59,8 @@ final class AuthClientTest extends TestCase
 
         // Given
         $mockHandler = $this->mockSuccessResponseHandler();
-        $client = (new AuthClient())->setBolClientId(self::MOCK_CLIENT_ID);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = (new Auth())->setBolClientId(self::MOCK_CLIENT_ID);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
@@ -73,13 +73,13 @@ final class AuthClientTest extends TestCase
 
         // Given
         $mockHandler = $this->mockSuccessResponseHandler([]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenAccesstokenIsMissing(): void
@@ -93,13 +93,13 @@ final class AuthClientTest extends TestCase
             'expires_in' => 299,
             'scope' => ScopeTypes::RETAILER->value,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenTokentypeIsMissing(): void
@@ -113,13 +113,13 @@ final class AuthClientTest extends TestCase
             'expires_in' => 299,
             'scope' => ScopeTypes::RETAILER->value,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenExpiresinIsMissing(): void
@@ -133,13 +133,13 @@ final class AuthClientTest extends TestCase
             'token_type' => HeaderAuthorizationTypes::BEARER->value,
             'scope' => ScopeTypes::RETAILER->value,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenScopeIsMissing(): void
@@ -153,13 +153,13 @@ final class AuthClientTest extends TestCase
             'token_type' => HeaderAuthorizationTypes::BEARER->value,
             'expires_in' => 299,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenAccesstokenIsNotEqualToBearer(): void
@@ -174,13 +174,13 @@ final class AuthClientTest extends TestCase
             'expires_in' => 299,
             'scope' => ScopeTypes::RETAILER->value,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenScopeIsNotEqualRetailer(): void
@@ -195,13 +195,13 @@ final class AuthClientTest extends TestCase
             'expires_in' => 299,
             'scope' => 'mock_fake_scope',
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 
     public function testAuthenticationShouldFailWhenExpiresinIsNotAnInteger(): void
@@ -216,12 +216,12 @@ final class AuthClientTest extends TestCase
             'expires_in' => 'not_an_integer',
             'scope' => ScopeTypes::RETAILER->value,
         ]);
-        $client = new AuthClient(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
-        $client->getHttpClient()->setGuzzleHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
+        $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
         // When
         $client->authenticate();
 
-        $this->assertInstanceOf(AuthClient::class, $client);
+        $this->assertInstanceOf(Auth::class, $client);
     }
 }
