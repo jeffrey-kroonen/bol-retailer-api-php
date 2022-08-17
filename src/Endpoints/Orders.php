@@ -40,8 +40,7 @@ class Orders extends BaseEndpoint implements OrdersInterface
         $paginate = new Paginate();
         $paginate->setPage($page);
 
-
-        foreach ($ordersData as $orderData) {
+        foreach ($ordersData['orders'] as $orderData) {
             $order = (new OrderNormalizer())->denormalize(
                 data: $orderData,
                 class: Order::class
