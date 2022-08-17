@@ -6,8 +6,6 @@ namespace JeffreyKroonen\BolRetailer\Utilities;
 
 abstract class BaseUtility
 {
-
-
     /**
      * @var Http
      */
