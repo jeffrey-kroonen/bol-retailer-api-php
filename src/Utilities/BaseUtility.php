@@ -6,9 +6,7 @@ namespace JeffreyKroonen\BolRetailer\Utilities;
 
 abstract class BaseUtility
 {
-    private const BASE_URL = 'https://api.bol.com';
 
-    private const RETAILER_API_ENDPOINT = '/retailer';
 
     /**
      * @var Http
@@ -18,11 +16,6 @@ abstract class BaseUtility
     public function __construct()
     {
         $this->setHttp(new Http());
-    }
-
-    public function getRetailerEndpointUrl(): string
-    {
-        return self::BASE_URL . self::RETAILER_API_ENDPOINT;
     }
 
     /**
