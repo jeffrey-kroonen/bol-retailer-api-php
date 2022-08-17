@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
+use JeffreyKroonen\BolRetailer\Enums\Orders\FulfilmentMethods;
+use JeffreyKroonen\BolRetailer\Enums\Orders\StatusTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\Order;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\OrdersInterface;
+use JeffreyKroonen\BolRetailer\Utilities\Paginate;
 
 class Orders extends BaseEndpoint implements OrdersInterface
 {
@@ -15,35 +18,38 @@ class Orders extends BaseEndpoint implements OrdersInterface
     /**
      * Gets a paginated list of all orders for a retailer.
      *
-     * @return array
+     * @param int $page
+     * @param FulfilmentMethods $fulfillmentMethod
+     * @param StatusTypes $status
+     * @return Paginate
      */
-    public function orders(int $page = 1): array // @todo Make an enum for statuses, we have to give the status as parameter here.
-    {
+    public function orders(
+        int $page = 1,
+        FulfilmentMethods $fulfillmentMethod = FulfilmentMethods::FBR,
+        StatusTypes $status = StatusTypes::OPEN
+    ): Paginate {
         $this->checkAuthentication();
 
-        $response = $this->http->get($this->getRetailerEndpointUrl());
+        $response = $this->http->get($this->getRetailerEndpointUrl(), [
+            'page' => $page,
+            'fulfilment-method' => $fulfillmentMethod->value,
+            'status' => $status->value
+        ]);
         $ordersData = $this->http->jsonDecodeBody($response);
 
-        // @todo Move this to a separate class.
-        $data = [
-            'orders' => [],
-            'meta' => [
-                'current_page' => $page,
-                'next_page' => $page + 1,
-            ],
-        ];
+        $paginate = new Paginate();
+        $paginate->setPage($page);
 
-        if ($page > 1) {
-            $data['meta']['previous_page'] = $page - 1;
-        }
 
         foreach ($ordersData as $orderData) {
-            $data['orders'][] = (new OrderNormalizer())->denormalize(
+            $order = (new OrderNormalizer())->denormalize(
                 data: $orderData,
                 class: Order::class
             );
+
+            $paginate->push($order);
         }
 
-        return $data;
+        return $paginate;
     }
 }
