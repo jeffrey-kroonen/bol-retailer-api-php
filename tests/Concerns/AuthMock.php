@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 trait AuthMock
 {
-    private function mockSuccessResponseHandler(?array $body = null): MockHandler
+    private function mockAuthSuccessResponseHandler(?array $body = null): MockHandler
     {
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [

@@ -25,7 +25,7 @@ final class AuthTest extends TestCase
     public function testShouldBeAbleToAuthenticateAtBolDotCom(): void
     {
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler();
+        $mockHandler = $this->mockAuthSuccessResponseHandler();
 
         $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
         $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
@@ -43,7 +43,7 @@ final class AuthTest extends TestCase
         $this->expectError();
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler();
+        $mockHandler = $this->mockAuthSuccessResponseHandler();
 
         $client = (new Auth())->setBolClientSecret(self::MOCK_CLIENT_SECRET);
         $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
@@ -58,7 +58,7 @@ final class AuthTest extends TestCase
         $this->expectError();
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler();
+        $mockHandler = $this->mockAuthSuccessResponseHandler();
         $client = (new Auth())->setBolClientId(self::MOCK_CLIENT_ID);
         $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
@@ -72,7 +72,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([]);
+        $mockHandler = $this->mockAuthSuccessResponseHandler([]);
         $client = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
         $client->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockHandler)]));
 
@@ -88,7 +88,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'token_type' => HeaderAuthorizationTypes::BEARER->value,
             'expires_in' => 299,
             'scope' => ScopeTypes::RETAILER->value,
@@ -108,7 +108,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'expires_in' => 299,
             'scope' => ScopeTypes::RETAILER->value,
@@ -128,7 +128,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'token_type' => HeaderAuthorizationTypes::BEARER->value,
             'scope' => ScopeTypes::RETAILER->value,
@@ -148,7 +148,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'token_type' => HeaderAuthorizationTypes::BEARER->value,
             'expires_in' => 299,
@@ -168,7 +168,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'token_type' => 'mock_fake_token_type',
             'expires_in' => 299,
@@ -189,7 +189,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'token_type' => HeaderAuthorizationTypes::BASIC->value,
             'expires_in' => 299,
@@ -210,7 +210,7 @@ final class AuthTest extends TestCase
         $this->expectException(ResponseException::class);
 
         // Given
-        $mockHandler = $this->mockSuccessResponseHandler([
+        $mockHandler = $this->mockAuthSuccessResponseHandler([
             'access_token' => self::MOCK_ACCESS_TOKEN,
             'token_type' => HeaderAuthorizationTypes::BASIC->value,
             'expires_in' => 'not_an_integer',
