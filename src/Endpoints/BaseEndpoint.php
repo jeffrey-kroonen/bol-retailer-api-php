@@ -22,11 +22,6 @@ abstract class BaseEndpoint
     protected string $endpoint;
 
     /**
-     * @var string
-     */
-    protected readonly string $endpointUrl;
-
-    /**
      * @var Auth
      */
     protected Auth $auth;
