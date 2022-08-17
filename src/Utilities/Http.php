@@ -99,12 +99,12 @@ class Http
      * @throws NotFoundException The server can't find the given URL.
      * @throws ResponseException Something wen't wrong in the response.
      */
-    public function get(string $url, $query = null): Response
+    public function get(string $url, $query = []): Response
     {
         try {
             $response = $this->httpClient->get($url, [
                 'headers' => $this->headers,
-                'query' => $query ?? $this->query,
+                'query' => ! empty($query) ? $query : $this->query,
             ]);
         } catch (BadResponseException $badResponseException) {
             $this->handleBadResponseException($badResponseException);
