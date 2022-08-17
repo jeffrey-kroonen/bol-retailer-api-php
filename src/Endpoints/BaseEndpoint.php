@@ -40,6 +40,10 @@ abstract class BaseEndpoint
     {
         if (isset($auth)) {
             $this->setAuth($auth);
+
+            if (! isset($this->http)) {
+                $this->setHttp(new Http());
+            }
         }
     }
 
@@ -66,10 +70,6 @@ abstract class BaseEndpoint
     public function setAuth(Auth $auth): self
     {
         $this->auth = $auth;
-
-        if (! isset($this->http)) {
-            $this->setHttp(new Http());
-        }
 
         return $this;
     }
