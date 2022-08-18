@@ -9,18 +9,14 @@ use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Enums\ScopeTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
-use JeffreyKroonen\BolRetailer\Tests\Concerns\AuthMock;
+use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
+use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
 use JeffreyKroonen\BolRetailer\Utilities\Auth;
 use PHPUnit\Framework\TestCase;
 
-final class AuthTest extends TestCase
+final class AuthTest extends TestCase implements MockInterface
 {
     use AuthMock;
-
-    private const MOCK_CREDENTIALS = 'mock_credentials';
-    private const MOCK_CLIENT_ID = 'mock_client_id';
-    private const MOCK_CLIENT_SECRET = 'mock_client_secret';
-    private const MOCK_ACCESS_TOKEN = 'mock_access_token';
 
     public function testShouldBeAbleToAuthenticateAtBolDotCom(): void
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Tests\Concerns;
+namespace JeffreyKroonen\BolRetailer\Tests\Traits;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
