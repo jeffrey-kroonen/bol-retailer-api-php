@@ -7,22 +7,20 @@ namespace JeffreyKroonen\BolRetailer\Tests\Utilities;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Orders;
-use JeffreyKroonen\BolRetailer\Tests\Concerns\AuthMock;
-use JeffreyKroonen\BolRetailer\Tests\Concerns\EndpointMock;
+use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
+use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
+use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
+use JeffreyKroonen\BolRetailer\Tests\Traits\EndpointMock;
 use JeffreyKroonen\BolRetailer\Utilities\Auth;
 use JeffreyKroonen\BolRetailer\Utilities\Http;
 use JeffreyKroonen\BolRetailer\Utilities\Paginate;
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
 
-final class OrdersTest extends TestCase
+final class OrdersTest extends TestCase implements MockInterface
 {
     use AuthMock;
     use EndpointMock;
-
-    private const MOCK_CREDENTIALS = 'mock_credentials';
-    private const MOCK_CLIENT_ID = 'mock_client_id';
-    private const MOCK_CLIENT_SECRET = 'mock_client_secret';
-    private const MOCK_ACCESS_TOKEN = 'mock_access_token';
 
     public function testOrdersShouldBeRetrieved(): void
     {
@@ -50,6 +48,25 @@ final class OrdersTest extends TestCase
 
     public function testOrdersShouldNotBeRetrievedWhenUnauthorized(): void
     {
-        // @todo Write unit test
+        // Then
+        $this->expectException(UnauthorizedException::class);
+
+        // Given
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($this->mockAuthSuccessResponseHandler())]));
+        $auth->authenticate();
+
+        $ordersEndpoint = new Orders(auth: $auth);
+        $ordersEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($this->mockOrdersResponseHandler())]))
+        );
+
+        // When
+        $authReflection = new ReflectionObject($auth);
+        $expiresInReflectionProperty = $authReflection->getProperty('expiresIn');
+        $expiresInReflectionProperty->setAccessible(true);
+        $expiresInReflectionProperty->setValue($auth, time() - 301);
+
+        $ordersEndpoint->orders();
     }
 }
