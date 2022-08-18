@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
-use Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\AuthNotSetException;
 use JeffreyKroonen\BolRetailer\Exceptions\EndpointNotSetException;
+use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Utilities\Auth;
 use JeffreyKroonen\BolRetailer\Utilities\Http;
 
