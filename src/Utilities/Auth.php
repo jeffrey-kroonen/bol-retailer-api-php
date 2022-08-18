@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Clients;
+namespace JeffreyKroonen\BolRetailer\Utilities;
 
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Enums\HeaderGrantTypes;
 use JeffreyKroonen\BolRetailer\Enums\ScopeTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
-use Psr\Http\Message\ResponseInterface;
 
-class AuthClient extends BaseClient
+class Auth extends BaseUtility
 {
     private const AUTH_URL = 'https://login.bol.com/token';
 
@@ -46,11 +45,11 @@ class AuthClient extends BaseClient
     {
         parent::__construct();
 
-        if (!is_null($bolClientId)) {
+        if (! is_null($bolClientId)) {
             $this->setBolClientId($bolClientId);
         }
 
-        if (!is_null($bolClientId)) {
+        if (! is_null($bolClientId)) {
             $this->setBolClientSecret($bolClientSecret);
         }
     }
@@ -81,11 +80,26 @@ class AuthClient extends BaseClient
         return $this;
     }
 
+    /**
+     * Accessor for the accessToken property.
+     *
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Authenticate the app at Bol.com Retailer API.
+     *
+     * @return self
+     */
     public function authenticate(): self
     {
         $credentials = base64_encode("$this->bolClientId:$this->bolClientSecret");
 
-        $response = $this->httpClient->setHeaders([
+        $response = $this->http->setHeaders([
             'Accept' => 'application/json',
             'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BASIC->value, $credentials),
         ])
@@ -109,7 +123,7 @@ class AuthClient extends BaseClient
      */
     public function isAuthenticated(): bool
     {
-        if (!isset($this->accessToken)) {
+        if (! isset($this->accessToken)) {
             return false;
         }
 
@@ -118,7 +132,7 @@ class AuthClient extends BaseClient
 
     private function validateResponse($response): array
     {
-        $responseBody = $this->httpClient->jsonDecodeBody($response);
+        $responseBody = $this->http->jsonDecodeBody($response);
 
         // Validate the required response body fields.
         if (empty($responseBody['access_token'])) {

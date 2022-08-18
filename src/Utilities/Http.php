@@ -2,24 +2,26 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Clients;
+namespace JeffreyKroonen\BolRetailer\Utilities;
 
-use Clients\ServerException;
-use Exceptions\NotFoundException;
-use Exceptions\RateLimitException;
-use Exceptions\UnauthorizedException;
-use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
+use JeffreyKroonen\BolRetailer\Exceptions\NotFoundException;
+use JeffreyKroonen\BolRetailer\Exceptions\RateLimitException;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
+use JeffreyKroonen\BolRetailer\Exceptions\ServerException;
+use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 
-class HttpClient
+class Http
 {
+    public const  HEADER_APPLICATION_CONTENT_TYPE_JSON = 'application/vnd.retailer.v7+json';
+
     /**
      * @var HttpClient
      */
-    protected GuzzleHttpClient $guzzleHttpClient;
+    protected HttpClient $httpClient;
 
     /**
      * @var ?array $headers
@@ -33,18 +35,18 @@ class HttpClient
 
     public function __construct()
     {
-        $this->setGuzzleHttpClient(new GuzzleHttpClient());
+        $this->setHttpClient(new HttpClient());
     }
 
     /**
      * Mutator for the httpClient property.
      *
-     * @param GuzzleHttpClient $guzzleHttpClient The Guzzle HTTP client used for API calls.
+     * @param HttpClient $httpClient The Guzzle HTTP client used for API calls.
      * @return self
      */
-    public function setGuzzleHttpClient(GuzzleHttpClient $guzzleHttpClient): self
+    public function setHttpClient(HttpClient $httpClient): self
     {
-        $this->guzzleHttpClient = $guzzleHttpClient;
+        $this->httpClient = $httpClient;
 
         return $this;
     }
@@ -63,6 +65,16 @@ class HttpClient
     }
 
     /**
+     * UThe accessor for the headers property.
+     *
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
      * Mutator for the query property.
      *
      * @param array $query
@@ -73,6 +85,32 @@ class HttpClient
         $this->query = $query;
 
         return $this;
+    }
+
+    /**
+     * Make a HTTP GET request.
+     *
+     * @param string $url
+     * @param array $query
+     * @return Response
+     * @throws UnauthorizedException The incoming request is unauthorized.
+     * @throws RateLimitException The rate limit is exceeded.
+     * @throws ServerException The server can't handle the incoming request.
+     * @throws NotFoundException The server can't find the given URL.
+     * @throws ResponseException Something wen't wrong in the response.
+     */
+    public function get(string $url, $query = []): Response
+    {
+        try {
+            $response = $this->httpClient->get($url, [
+                'headers' => $this->headers,
+                'query' => ! empty($query) ? $query : $this->query,
+            ]);
+        } catch (BadResponseException $badResponseException) {
+            $this->handleBadResponseException($badResponseException);
+        }
+
+        return $response;
     }
 
     /**
@@ -90,7 +128,7 @@ class HttpClient
     public function post(string $url, $body = []): Response
     {
         try {
-            $response = $this->guzzleHttpClient->post($url, [
+            $response = $this->httpClient->post($url, [
                 'headers' => $this->headers,
                 'query' => $this->query,
             ]);

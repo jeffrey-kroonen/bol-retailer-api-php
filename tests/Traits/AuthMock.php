@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Tests\Concerns;
+namespace JeffreyKroonen\BolRetailer\Tests\Traits;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 trait AuthMock
 {
-    private function mockSuccessResponseHandler(?array $body = null): MockHandler
+    private function mockAuthSuccessResponseHandler(?array $body = null): MockHandler
     {
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
