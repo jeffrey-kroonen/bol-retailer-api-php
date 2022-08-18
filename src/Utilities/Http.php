@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Utilities;
 
-use Exceptions\NotFoundException;
-use Exceptions\RateLimitException;
-use Exceptions\UnauthorizedException;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
+use JeffreyKroonen\BolRetailer\Exceptions\NotFoundException;
+use JeffreyKroonen\BolRetailer\Exceptions\RateLimitException;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
 use JeffreyKroonen\BolRetailer\Exceptions\ServerException;
+use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 
 class Http
