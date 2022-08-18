@@ -45,11 +45,11 @@ class Auth extends BaseUtility
     {
         parent::__construct();
 
-        if (!is_null($bolClientId)) {
+        if (! is_null($bolClientId)) {
             $this->setBolClientId($bolClientId);
         }
 
-        if (!is_null($bolClientId)) {
+        if (! is_null($bolClientId)) {
             $this->setBolClientSecret($bolClientSecret);
         }
     }
@@ -80,6 +80,21 @@ class Auth extends BaseUtility
         return $this;
     }
 
+    /**
+     * Accessor for the accessToken property.
+     *
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Authenticate the app at Bol.com Retailer API.
+     *
+     * @return self
+     */
     public function authenticate(): self
     {
         $credentials = base64_encode("$this->bolClientId:$this->bolClientSecret");
@@ -108,7 +123,7 @@ class Auth extends BaseUtility
      */
     public function isAuthenticated(): bool
     {
-        if (!isset($this->accessToken)) {
+        if (! isset($this->accessToken)) {
             return false;
         }
 
