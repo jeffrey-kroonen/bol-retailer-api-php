@@ -52,13 +52,13 @@ abstract class BaseEndpoint
      *
      * @return string
      */
-    public function getRetailerEndpointUrl(): string
+    public function getRetailerEndpointUrl(string $subPath = ''): string
     {
         if (! isset($this->endpoint)) {
             throw new EndpointNotSetException();
         }
 
-        return self::BASE_URL . self::RETAILER_API_ENDPOINT . $this->endpoint;
+        return self::BASE_URL . self::RETAILER_API_ENDPOINT . $this->endpoint . $subPath;
     }
 
     /**
