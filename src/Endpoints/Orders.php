@@ -51,4 +51,17 @@ class Orders extends BaseEndpoint implements OrdersInterface
 
         return $paginate;
     }
+
+    public function orderById(string $id): Order
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $orderData = $this->http->jsonDecodeBody($response);
+
+        return (new OrderNormalizer())->denormalize(
+            data: $orderData,
+            class: Order::class
+        );
+    }
 }
