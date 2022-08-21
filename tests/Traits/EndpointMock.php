@@ -36,4 +36,55 @@ trait EndpointMock
             ')
         ]);
     }
+
+    private function mockOrderByIdResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "orderId": "A2K8290LP8",
+                "pickupPoint": true,
+                "orderPlacedDateTime": "2017-02-09T12:39:48+01:00",
+                "shipmentDetails": {
+                    "pickupPointName": "Albert Heijn: UTRECHT",
+                    "salutation": "MALE",
+                    "firstName": "Billie",
+                    "surname": "Jansen",
+                    "streetName": "Dorpstraat",
+                    "houseNumber": "1",
+                    "houseNumberExtension": "B",
+                    "extraAddressInformation": "Apartment",
+                    "zipCode": "1111ZZ",
+                    "city": "Utrecht",
+                    "countryCode": "NL",
+                    "email": "billie@verkopen.bol.com",
+                    "company": "bol.com",
+                    "deliveryPhoneNumber": "012123456",
+                    "language": "nl"
+                },
+                "billingDetails": {
+                    "salutation": "MALE",
+                    "firstName": "Billie",
+                    "surname": "Jansen",
+                    "streetName": "Dorpstraat",
+                    "houseNumber": "1",
+                    "houseNumberExtension": "B",
+                    "extraAddressInformation": "Apartment",
+                    "zipCode": "1111ZZ",
+                    "city": "Utrecht",
+                    "countryCode": "NL",
+                    "email": "billie@verkopen.bol.com",
+                    "company": "bol.com",
+                    "vatNumber": "NL999999999B99",
+                    "kvkNumber": "99887766",
+                    "orderReference": "MijnReferentie"
+                },
+                "orderItems": [{}]
+            }
+            ')
+        ]);
+    }
 }
