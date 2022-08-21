@@ -51,4 +51,23 @@ class Orders extends BaseEndpoint implements OrdersInterface
 
         return $paginate;
     }
+
+    /**
+     * Get an order by order id.
+     *
+     * @param string $id The id of the order to get.
+     * @return Order
+     */
+    public function orderById(string $id): Order
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $orderData = $this->http->jsonDecodeBody($response);
+
+        return (new OrderNormalizer())->denormalize(
+            data: $orderData,
+            class: Order::class
+        );
+    }
 }
