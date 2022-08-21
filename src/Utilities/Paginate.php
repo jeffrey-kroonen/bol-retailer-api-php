@@ -9,7 +9,7 @@ class Paginate
     /**
      * The data of the current page.
      *
-     * @var array
+     * @var array<object>
      */
     public array $data = [];
 

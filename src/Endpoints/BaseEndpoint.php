@@ -15,6 +15,14 @@ abstract class BaseEndpoint
 {
     private const BASE_URL = 'https://api.bol.com';
     private const RETAILER_API_ENDPOINT = '/retailer';
+    private const RETAILER_DEMO_API_ENDPOINT = '/retailer-demo';
+
+    /**
+     * Determines if the demo environment of Bol.com Retailer API should be used.
+     *
+     * @var boolean
+     */
+    private readonly bool $demoModeEnabled;
 
     /**
      * @var string
@@ -47,18 +55,30 @@ abstract class BaseEndpoint
         }
     }
 
+    public function enableDemoMode(): self
+    {
+        $this->demoModeEnabled = true;
+
+        return $this;
+    }
+
     /**
      * The accessor for the endpoint url.
      *
      * @return string
      */
-    public function getRetailerEndpointUrl(): string
+    public function getRetailerEndpointUrl(string $subPath = ''): string
     {
         if (! isset($this->endpoint)) {
             throw new EndpointNotSetException();
         }
 
-        return self::BASE_URL . self::RETAILER_API_ENDPOINT . $this->endpoint;
+        return self::BASE_URL
+            . (isset($this->demoModeEnabled) && $this->demoModeEnabled
+                ? self::RETAILER_DEMO_API_ENDPOINT
+                : self::RETAILER_API_ENDPOINT)
+            . $this->endpoint
+            . $subPath;
     }
 
     /**
