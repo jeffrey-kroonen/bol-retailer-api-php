@@ -41,7 +41,6 @@ class Returns extends BaseEndpoint implements ReturnsInterface
         $paginate->setPage($page);
 
         foreach ($returnsData['returns'] as $returnData) {
-            // print_r($returnData); exit;
             $order = (new ReturnNormalizer())->denormalize(
                 data: $returnData,
                 class: _Return::class
