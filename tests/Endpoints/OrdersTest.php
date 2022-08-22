@@ -10,7 +10,6 @@ use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Orders;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Generated\Model\Order;
-use JeffreyKroonen\BolRetailer\Generated\Model\ShipmentDetails;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
 use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
 use JeffreyKroonen\BolRetailer\Tests\Traits\EndpointMock;
