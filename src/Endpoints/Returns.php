@@ -51,4 +51,23 @@ class Returns extends BaseEndpoint implements ReturnsInterface
 
         return $paginate;
     }
+
+    /**
+     * Get a return by return id.
+     *
+     * @param string $id The id of the order to get.
+     * @return Order
+     */
+    public function returnById(string $id): _Return
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $returnData = $this->http->jsonDecodeBody($response);
+
+        return (new ReturnNormalizer())->denormalize(
+            data: $returnData,
+            class: _Return::class
+        );
+    }
 }
