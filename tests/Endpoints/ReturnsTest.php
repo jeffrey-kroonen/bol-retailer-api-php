@@ -8,7 +8,9 @@ use DateTime;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Returns;
+use JeffreyKroonen\BolRetailer\Enums\Orders\FulfilmentMethods;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
+use JeffreyKroonen\BolRetailer\Generated\Model\_Return;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
 use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
 use JeffreyKroonen\BolRetailer\Tests\Traits\EndpointMock;
@@ -22,6 +24,8 @@ final class ReturnsTest extends TestCase implements MockInterface
 {
     use AuthMock;
     use EndpointMock;
+
+    private const MOCK_BOL_RETURN_ID = '1';
 
     public function testReturnsShouldBeRetrieved(): void
     {
@@ -70,5 +74,62 @@ final class ReturnsTest extends TestCase implements MockInterface
         $expiresInReflectionProperty->setValue($auth, time() - 301);
 
         $returnsEndpoint->returns(handled: true);
+    }
+
+    public function testReturnByIdShouldBeRetrieved(): void
+    {
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockReturnsHandler = $this->mockReturnByIdResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        $returnsEndpoint = new Returns(auth: $auth);
+        $returnsEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockReturnsHandler)]))
+        );
+
+        // When
+        $return = $returnsEndpoint->returnById(self::MOCK_BOL_RETURN_ID);
+
+        // Then
+        $this->assertInstanceOf(_Return::class, $return);
+        $this->assertIsString($return->getReturnId());
+        $this->assertInstanceOf(DateTime::class, $return->getRegistrationDateTime());
+        $this->assertTrue(in_array($return->getFulfilmentMethod(), [
+            FulfilmentMethods::FBR->value,
+            FulfilmentMethods::FBB->value,
+        ]));
+        $this->assertIsArray($return->getReturnItems());
+        $this->assertIsString($return->getReturnItems()[0]['orderId']);
+    }
+
+    public function testReturnByIdShouldNotBeRetrievedWhenUnauthorized(): void
+    {
+        // Then
+        $this->expectException(UnauthorizedException::class);
+
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockReturnsHandler = $this->mockReturnByIdResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        $returnsEndpoint = new Returns(auth: $auth);
+        $returnsEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockReturnsHandler)]))
+        );
+
+        // When
+        $authReflection = new ReflectionObject($auth);
+        $expiresInReflectionProperty = $authReflection->getProperty('expiresIn');
+        $expiresInReflectionProperty->setAccessible(true);
+        $expiresInReflectionProperty->setValue($auth, time() - 301);
+
+        $returnsEndpoint->returnById(self::MOCK_BOL_RETURN_ID);
     }
 }
