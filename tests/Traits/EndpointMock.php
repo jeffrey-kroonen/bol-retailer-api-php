@@ -123,4 +123,57 @@ trait EndpointMock
             ')
         ]);
     }
+
+    private function mockReturnByIdResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "returnId": "1",
+                "registrationDateTime": "2016-11-14T11:06:48+01:00",
+                "fulfilmentMethod": "FBR",
+                "returnItems": [{
+                    "rmaId": "31234567",
+                    "orderId": "4012345678",
+                    "ean": "9789076174082",
+                    "title": "Harry Potter en de steen der wijzen",
+                    "expectedQuantity": 1,
+                    "returnReason": {
+                        "mainReason": "Niet naar verwachting",
+                        "detailedReason": "Niet naar verwachting",
+                        "customerComments": "Lorem Ipsum"
+                    },
+                    "trackAndTrace": "3SBOL0987654321",
+                    "transporterName": "PostNL",
+                    "handled": true,
+                    "processingResults": [{
+                        "quantity": 1,
+                        "processingResult": "ACCEPTED",
+                        "handlingResult": "RETURN_RECEIVED",
+                        "processingDateTime": "2018-04-17T10:55:37+02:00"
+                    }],
+                    "customerDetails": {
+                        "salutation": "MALE",
+                        "firstName": "Billie",
+                        "surname": "Jansen",
+                        "streetName": "Dorpstraat",
+                        "houseNumber": "1",
+                        "houseNumberExtension": "B",
+                        "extraAddressInformation": "Apartment",
+                        "zipCode": "1111ZZ",
+                        "city": "Utrecht",
+                        "countryCode": "NL",
+                        "email": "billie@verkopen.bol.com",
+                        "deliveryPhoneNumber": "012123456",
+                        "company": "bol.com",
+                        "vatNumber": "NL999999999B99"
+                    }
+                }]
+            }
+            ')
+        ]);
+    }
 }
