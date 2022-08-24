@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Enums\Subscriptions;
 
 enum ResourceTypes: string
