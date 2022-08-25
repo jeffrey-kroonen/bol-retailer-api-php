@@ -43,7 +43,6 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl('/signature-keys'));
         $signatureKeysData = $this->http->jsonDecodeBody($response);
 
-
         $signatureKeysResponse = (new KeySetResponseNormalizer())->denormalize(
             data: $signatureKeysData,
             class: KeySetResponse::class,
