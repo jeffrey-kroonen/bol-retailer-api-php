@@ -7,6 +7,7 @@ namespace JeffreyKroonen\BolRetailer\Utilities;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
+use JeffreyKroonen\BolRetailer\Exceptions\BadRequestException;
 use JeffreyKroonen\BolRetailer\Exceptions\NotFoundException;
 use JeffreyKroonen\BolRetailer\Exceptions\RateLimitException;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
@@ -159,6 +160,7 @@ class Http
      *
      * @param BadResponseException $badResponseException
      * @return void
+     * @throws BadRequestException The request is incorrect formatted.
      * @throws UnauthorizedException The incoming request is unauthorized.
      * @throws RateLimitException The rate limit is exceeded.
      * @throws ServerException The server can't handle the incoming request.
@@ -182,7 +184,9 @@ class Http
             $data['error_description'] ??
             $statusCode . ' ' . $response->getReasonPhrase();
 
-        if ($statusCode === 401) {
+        if ($statusCode === 400) {
+            throw new BadRequestException($message, $statusCode);
+        } elseif ($statusCode === 401) {
             throw new UnauthorizedException($message, $statusCode);
         } if ($statusCode === 429) {
             throw new RateLimitException($message, $statusCode);
