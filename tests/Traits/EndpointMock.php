@@ -199,4 +199,22 @@ trait EndpointMock
             ')
         ]);
     }
+
+    public function mockSignatureKeysResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "signatureKeys": [{
+                    "id": "0",
+                    "type": "RSA",
+                    "publicKey": "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCDO7X3OGEqB6LU2ZQdznuYJX1KhCiJUB0+IwW9UjcgbU2Y/LzUIgGPT33s/+OqqMQOtXp2RV4JM6Zv5/YUZgZAqEIkvvrIYvJB8tXv73VQS2r4Ssy3Y/frJsqy8a3sDOoFeJygHYE6kVf3sOCdo4CO6PFUe7ZwsOSS2/7fNWAaMhY6tEuZwkA7ZLoSd3UHTdeKlV1TH5I3yFClMo1FwABsWzj9DhvEb6Q36j+QLJZAj0xvusJUsOjcSgyXRzVBFtwwNILzs9BO+GWRI4li+rjhaST2pNtvGfnQB5TUOO7Yegk/ucSiV1cFzy95gWQV2F0c9P1vBctETrYKxQBklBbjAgMBAAECggEAGISLVoi9/nA2x7VuqrLs/FvksItIV38UN4urgtddXT2OhcqSLL+9styTFjgofLXTCzx0iKwlCWsQ6U9Y9i6pdGL7GIplqBJ0WEXaGl2OeVXdwk2XOZv/sXsp24yzhapT/nmuKWvZvOtyl9//1vO5DPoQPExwpVUnHxji4SjDr6DuKVNDwh9Z4mVsdfdYVeLYGJ356IGWhTu/JDie4byl8B75UgbmyvfJRjQkoLpVZuhu+jkmhogpoSl6NtaKA+iFlGT9JLtGVHDn15kdEHb+dtzTzyJH40KGjQ7OiZcmA8GFft6zrNlOpyziH7fICtt0//7fR348/Z+XIYUFqfadQQKBgQDeVnqAlkt2Uab/1OjX9O8CRWqdoFLpUGDiHhkaXEylJtm1osFHGiyOi1eEQOy//lnJWKUp7c0b8D/QioP7kI38ES1mBx1KDzFgob4p/U+4R+z24SV/Q3CT6vHbfbe1XxWvE4SOdh4p7+Kuhxz1n6P0TWltvsTbpCJ9GM4wi2Z26QKBgQCXGiObkJI4Wv6RGxq76BHEDZdrLWppXh1+FYfyUaq6bfcSF86yAIRlleEJUh1V8KDw2DCX0rhO3BW0juEl5qz5RohLIxuak+2RbX6IQrVPwtCCeGQzKIRPktht+fi+eSaa5XNMLXURTzjVUdxzFwqDKp+7YQWL8DJ6qEfJGGYX6wKBgBXM8PIOypNtaiyHmdUjBRR57fxKrhaGdRl2zgtRpYpEBvDSZpUsMdZAP3KOUyh4LiGZ+Yfk80mcAwXVrx9Ji0J+BK+OXwbV+od5FIZVei2dj9SdOuoBmNZIITLeXtb/3cZu6X52gnqmNNncEbDb2F2qAX5rSC4pJ+CQQBduc7uRAoGAHzjxfqWi8S4sSAOXxJgxg5djYGwj/t3JrlH4o2OoqZkrYnu05CcjNHKB65EiKq3sM5gYgmayWukzOvoDH/fIakHey9fXTluezVwYt0NBf9e7ihoiakfG/0JSonbypTkXdw5OgsEp3YfHMJ0XtlhefbgDBY8IvF/HrnyzSKRYBD0CgYBlq6nIEZOIqngHdtskT8JOZBcniVPGjUjSiNcYQXfeMwKINUqDGC/YmpPgBOhO93ozeQTCBeeMD8nlbkTHPu7BxCCfpKj6/PPMfxmyFQyDg9ZjjHOIhUMddRw+mSq0zS212JbIr3O4eEtrXPqWfq5phxyE3dRvaX3A3wiEQN9WRA=="
+                }]
+            }
+            ')
+        ]);
+    }
 }
