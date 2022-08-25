@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Utilities;
 
-use Exceptions\UrlNotValidException;
+use JeffreyKroonen\BolRetailer\Exceptions\UrlNotValidException;
 use UnitEnum;
 
 trait Helpers
@@ -39,10 +39,11 @@ trait Helpers
      */
     private function validatedUrl(string $url): string
     {
-        if (! preg_match(
-            pattern: '/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/',
+        $regexMatch = preg_match(
+            pattern: '/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/',
             subject: $url
-        )) {
+        );
+        if ($regexMatch === false || $regexMatch === 0) {
             throw new UrlNotValidException($url);
         }
 

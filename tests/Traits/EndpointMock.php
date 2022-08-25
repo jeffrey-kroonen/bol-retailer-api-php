@@ -176,4 +176,27 @@ trait EndpointMock
             ')
         ]);
     }
+
+    public function mockSubscriptionResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "processStatusId": "1",
+                "eventType": "CREATE_SUBSCRIPTION",
+                "description": "Create push notification subscription.",
+                "status": "PENDING",
+                "createTimestamp": "2022-08-22T11:32:12+02:00",
+                "links": [{
+                    "rel": "self",
+                    "href": "http://api.bol.com/shared-demo/process-status/1",
+                    "method": "GET"
+                }]
+            }
+            ')
+        ]);
+    }
 }

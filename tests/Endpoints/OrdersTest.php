@@ -41,7 +41,6 @@ final class OrdersTest extends TestCase implements MockInterface
         $ordersEndpoint->setHttp(
             (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockOrdersHandler)]))
         );
-
         $orders = $ordersEndpoint->orders();
 
         // Then
