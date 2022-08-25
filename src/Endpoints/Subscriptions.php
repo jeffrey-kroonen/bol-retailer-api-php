@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
 use Enums\Subscriptions\ResourceTypes;
+use JeffreyKroonen\BolRetailer\Generated\Model\KeySet;
+use JeffreyKroonen\BolRetailer\Generated\Model\KeySetResponse;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ProcessStatusNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\SubscriptionsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Helpers;
@@ -30,5 +34,29 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
             data: $processStatusData,
             class: ProcessStatus::class
         );
+    }
+
+    public function signatureKeys(): array
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl('/signature-keys'));
+        $signatureKeysData = $this->http->jsonDecodeBody($response);
+
+
+        $signatureKeysResponse = (new KeySetResponseNormalizer())->denormalize(
+            data: $signatureKeysData,
+            class: KeySetResponse::class,
+        );
+
+        $signatureKeys = [];
+        foreach ($signatureKeysResponse->getSignatureKeys() as $signatureKey) {
+            $signatureKeys[] = (new KeySetNormalizer())->denormalize(
+                data: $signatureKey,
+                class: KeySet::class,
+            );
+        }
+
+        return $signatureKeys;
     }
 }
