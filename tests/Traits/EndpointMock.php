@@ -177,7 +177,25 @@ trait EndpointMock
         ]);
     }
 
-    public function mockSubscriptionResponseHandler(): MockHandler
+    public function mockSubscriptionsHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "subscriptions" : [ {
+                  "id" : "1234",
+                  "resources" : [ "PROCESS_STATUS" ],
+                  "url" : "https://www.example.com/push"
+                } ]
+              }
+            ')
+        ]);
+    }
+
+    public function mockSubscribeResponseHandler(): MockHandler
     {
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
