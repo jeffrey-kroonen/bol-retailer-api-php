@@ -8,9 +8,13 @@ use Enums\Subscriptions\ResourceTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\KeySet;
 use JeffreyKroonen\BolRetailer\Generated\Model\KeySetResponse;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus;
+use JeffreyKroonen\BolRetailer\Generated\Model\SubscriptionResponse;
+use JeffreyKroonen\BolRetailer\Generated\Model\SubscriptionsResponse;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ProcessStatusNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionResponseNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionsResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\SubscriptionsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Helpers;
 
@@ -21,7 +25,35 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     protected string $endpoint = '/subscriptions';
 
     /**
-     * Create push notification subscription
+     * Get push notification subscriptions.
+     *
+     * @return array
+     */
+    public function subscriptions(): array
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl());
+        $subscriptionsData = $this->http->jsonDecodeBody($response);
+
+        $subscriptionsResponse = (new SubscriptionsResponseNormalizer())-> denormalize(
+            data: $subscriptionsData,
+            class: SubscriptionsResponse::class
+        );
+
+        $subscriptions = [];
+        foreach ($subscriptionsResponse->getSubscriptions() as $subscription) {
+            $subscriptions[] = (new SubscriptionResponseNormalizer)->denormalize(
+                data: $subscription,
+                class: SubscriptionResponse::class
+            );
+        }
+
+        return $subscriptions;
+    }
+
+    /**
+     * Create push notification subscription.
      *
      * @param array $resourceTypes
      * @param string $url
