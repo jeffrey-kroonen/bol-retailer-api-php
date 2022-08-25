@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Enums\subscriptions;
+namespace JeffreyKroonen\BolRetailer\Enums\Subscriptions;
 
 enum ResourceTypes: string
 {
