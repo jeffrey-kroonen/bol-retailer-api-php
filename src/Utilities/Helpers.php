@@ -22,6 +22,7 @@ trait Helpers
         foreach ($enums as $enum) {
             if ($enum instanceof UnitEnum) {
                 $data[] = $enum->value;
+                continue;
             }
 
             $data[] = $enum;
