@@ -8,7 +8,9 @@ use DateTime;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Subscriptions;
-use JeffreyKroonen\BolRetailer\Enums\subscriptions\ResourceTypes;
+use JeffreyKroonen\BolRetailer\Enums\Subscriptions\EventTypes;
+use JeffreyKroonen\BolRetailer\Enums\Subscriptions\ResourceTypes;
+use JeffreyKroonen\BolRetailer\Enums\Subscriptions\StatusTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
@@ -46,10 +48,8 @@ class SubscriptionsTest extends TestCase implements MockInterface
         // Then
         $this->assertInstanceOf(ProcessStatus::class, $processStatus);
         $this->assertIsString($processStatus->getProcessStatusId());
-
-        // @todo Add enum for "event types", so that we can check this in the test.
-        // @todo Add enum for "statuses", so that we can check this in the test.
-
+        $this->assertEquals(EventTypes::CREATE_SUBSCRIPTION->value, $processStatus->getEventType());
+        $this->assertEquals(StatusTypes::PENDING->value, $processStatus->getStatus());
         $this->assertInstanceOf(DateTime::class, $processStatus->getCreateTimestamp());
         $this->assertIsArray($processStatus->getLinks());
     }
