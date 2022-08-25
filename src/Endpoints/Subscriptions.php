@@ -25,7 +25,7 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     protected string $endpoint = '/subscriptions';
 
     /**
-     * Get push notification subscriptions
+     * Get push notification subscriptions.
      *
      * @return array
      */
@@ -53,7 +53,7 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     }
 
     /**
-     * Create push notification subscription
+     * Create push notification subscription.
      *
      * @param array $resourceTypes
      * @param string $url
