@@ -20,6 +20,13 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
 
     protected string $endpoint = '/subscriptions';
 
+    /**
+     * Create push notification subscription
+     *
+     * @param array $resourceTypes
+     * @param string $url
+     * @return ProcessStatus
+     */
     public function subscribe(array $resourceTypes, string $url): ProcessStatus
     {
         $this->checkAuthentication();
@@ -36,6 +43,11 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         );
     }
 
+    /**
+     * Retrieve public keys for push notification signature validation.
+     *
+     * @return array
+     */
     public function signatureKeys(): array
     {
         $this->checkAuthentication();
