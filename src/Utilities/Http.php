@@ -34,6 +34,11 @@ class Http
      */
     private ?array $query = [];
 
+    /**
+     * @var ?array $body
+     */
+    private ?array $body = [];
+
     public function __construct()
     {
         $this->setHttpClient(new HttpClient());
@@ -89,11 +94,35 @@ class Http
     }
 
     /**
+     * UThe accessor for the body property.
+     *
+     * @return array
+     */
+    public function getBody(): array
+    {
+        return $this->body;
+    }
+
+    /**
+     * Mutator for the body property.
+     *
+     * @param array $body
+     * @return self
+     */
+    public function setBody(array $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
      * Make a HTTP GET request.
      *
      * @param string $url
      * @param array $query
      * @return Response
+     * @throws BadRequestException The request is incorrect formatted.
      * @throws UnauthorizedException The incoming request is unauthorized.
      * @throws RateLimitException The rate limit is exceeded.
      * @throws ServerException The server can't handle the incoming request.
@@ -120,18 +149,47 @@ class Http
      * @param string $url
      * @param array $body
      * @return Response
+     * @throws BadRequestException The request is incorrect formatted.
      * @throws UnauthorizedException The incoming request is unauthorized.
      * @throws RateLimitException The rate limit is exceeded.
      * @throws ServerException The server can't handle the incoming request.
      * @throws NotFoundException The server can't find the given URL.
      * @throws ResponseException Something wen't wrong in the response.
      */
-    public function post(string $url, $body = []): Response
+    public function post(string $url, $body = [], $query = []): Response
     {
         try {
             $response = $this->httpClient->post($url, [
                 'headers' => $this->headers,
-                'query' => $this->query,
+                'query' => ! empty($query) ? $query : $this->query,
+                'json' => ! empty($body) ? $body : $this->body,
+            ]);
+        } catch (BadResponseException $badResponseException) {
+            $this->handleBadResponseException($badResponseException);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Make a HTTP DELETE request.
+     *
+     * @param string $url
+     * @param array $body
+     * @return Response
+     * @throws BadRequestException The request is incorrect formatted.
+     * @throws UnauthorizedException The incoming request is unauthorized.
+     * @throws RateLimitException The rate limit is exceeded.
+     * @throws ServerException The server can't handle the incoming request.
+     * @throws NotFoundException The server can't find the given URL.
+     * @throws ResponseException Something wen't wrong in the response.
+     */
+    public function delete(string $url, $query = []): Response
+    {
+        try {
+            $response = $this->httpClient->delete($url, [
+                'headers' => $this->headers,
+                'query' => ! empty($query) ? $query : $this->query,
             ]);
         } catch (BadResponseException $badResponseException) {
             $this->handleBadResponseException($badResponseException);
@@ -158,8 +216,8 @@ class Http
     /**
      * Handle the bad response from the Guzzle HTTP client.
      *
-     * @param BadResponseException $badResponseException
      * @return void
+     * @param BadResponseException $badResponseException
      * @throws BadRequestException The request is incorrect formatted.
      * @throws UnauthorizedException The incoming request is unauthorized.
      * @throws RateLimitException The rate limit is exceeded.

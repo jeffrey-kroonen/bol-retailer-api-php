@@ -62,7 +62,7 @@ class Orders extends BaseEndpoint implements OrdersInterface
     {
         $this->checkAuthentication();
 
-        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $orderData = $this->http->jsonDecodeBody($response);
 
         return (new OrderNormalizer())->denormalize(
