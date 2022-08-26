@@ -78,7 +78,7 @@ final class OrdersTest extends TestCase implements MockInterface
     {
         // Given
         $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
-        $mockOrdersHandler = $this->mockOrderByIdResponseHandler();
+        $mockOrderByIdHandler = $this->mockOrderByIdResponseHandler();
 
         $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
         $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
@@ -86,7 +86,7 @@ final class OrdersTest extends TestCase implements MockInterface
 
         $ordersEndpoint = new Orders(auth: $auth);
         $ordersEndpoint->setHttp(
-            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockOrdersHandler)]))
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockOrderByIdHandler)]))
         );
 
         // When
