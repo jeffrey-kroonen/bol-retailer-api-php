@@ -62,7 +62,7 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     {
         $this->checkAuthentication();
 
-        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $subscriptionData = $this->http->jsonDecodeBody($response);
 
         return (new SubscriptionResponseNormalizer())->denormalize(
@@ -86,6 +86,19 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
             'resources' => $this->unpack(enums: $resourceTypes),
             'url' => $this->validatedUrl($url),
         ]);
+        $processStatusData = $this->http->jsonDecodeBody($response);
+
+        return (new ProcessStatusNormalizer())->denormalize(
+            data: $processStatusData,
+            class: ProcessStatus::class
+        );
+    }
+
+    public function delete(string $id): ProcessStatus
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->delete($this->getRetailerEndpointUrl("/{$id}"));
         $processStatusData = $this->http->jsonDecodeBody($response);
 
         return (new ProcessStatusNormalizer())->denormalize(
