@@ -18,6 +18,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -41,7 +42,8 @@ trait EndpointMock
     {
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
-                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -93,6 +95,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -129,6 +132,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -182,6 +186,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -200,6 +205,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -216,6 +222,7 @@ trait EndpointMock
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
@@ -234,11 +241,36 @@ trait EndpointMock
         ]);
     }
 
+    public function mockSubscriptionDeletionResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "processStatusId": "1",
+                "eventType": "DELETE_SUBSCRIPTION",
+                "description": "Delete push notification subscription with id 1234.",
+                "status": "PENDING",
+                "createTimestamp": "2022-08-25T12:17:06+02:00",
+                "links": [{
+                    "rel": "self",
+                    "href": "http://api.bol.com/shared-demo/process-status/1",
+                    "method": "GET"
+                }]
+            }
+            ')
+        ]);
+    }
+
     public function mockSignatureKeysResponseHandler(): MockHandler
     {
         return new MockHandler([
             new Response(HttpResponse::HTTP_OK, [
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON  ,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
             ], '
             {
