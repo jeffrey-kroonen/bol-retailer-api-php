@@ -53,6 +53,25 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     }
 
     /**
+     * Get push notification subscription by id
+     *
+     * @param string $id
+     * @return SubscriptionResponse
+     */
+    public function subscriptionById(string $id): SubscriptionResponse
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $subscriptionData = $this->http->jsonDecodeBody($response);
+
+        return (new SubscriptionResponseNormalizer())->denormalize(
+            data: $subscriptionData,
+            class: SubscriptionResponse::class
+        );
+    }
+
+    /**
      * Create push notification subscription.
      *
      * @param array $resourceTypes

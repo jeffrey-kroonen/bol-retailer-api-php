@@ -88,6 +88,57 @@ class SubscriptionsTest extends TestCase implements MockInterface
         $subscriptionEndpoint->subscriptions();
     }
 
+    public function testSubscriptionByIdShouldBeRetrieved(): void
+    {
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockSubscriptionByIdHandler = $this->mockSubscriptionByIdResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        // When
+        $subscriptionEndpoint = new Subscriptions(auth: $auth);
+        $subscriptionEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockSubscriptionByIdHandler)]))
+        );
+        $subscription = $subscriptionEndpoint->subscriptionById(self::MOCK_BOL_SUBSCRIPTION_ID);
+
+        // Then
+        $this->assertIsString($subscription->getId());
+        $this->assertEquals(self::MOCK_BOL_SUBSCRIPTION_ID, $subscription->getId());
+        $this->assertIsArray($subscription->getResources());
+        $this->assertEquals(ResourceTypes::PROCESS_STATUS->value, $subscription->getResources()[0]);
+        $this->assertIsString($subscription->getUrl());
+    }
+
+    public function testSubscriptionByIdShouldNotBeRetrievedWhenUnauthorized(): void
+    {
+        // Then
+        $this->expectException(UnauthorizedException::class);
+
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockSubscriptionByIdHandler = $this->mockSubscriptionByIdResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        $subscriptionEndpoint = new Subscriptions(auth: $auth);
+        $subscriptionEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockSubscriptionByIdHandler)]))
+        );
+
+        // When
+        $authReflection = new ReflectionObject($auth);
+        $expiresInReflectionProperty = $authReflection->getProperty('expiresIn');
+        $expiresInReflectionProperty->setAccessible(true);
+        $expiresInReflectionProperty->setValue($auth, time() - 301);
+
+        $subscriptionEndpoint->subscriptionById(self::MOCK_BOL_SUBSCRIPTION_ID);
+    }
+
     public function testItShouldBePossibleToCreateASubscription(): void
     {
         // Given
