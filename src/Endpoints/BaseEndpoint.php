@@ -107,6 +107,7 @@ abstract class BaseEndpoint
         if (empty($this->http->getHeaders())) {
             $this->http->setHeaders([
                 'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
                 'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, $this->auth->getAccessToken()),
             ]);
         }
