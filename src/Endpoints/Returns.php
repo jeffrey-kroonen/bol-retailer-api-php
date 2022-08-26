@@ -62,7 +62,7 @@ class Returns extends BaseEndpoint implements ReturnsInterface
     {
         $this->checkAuthentication();
 
-        $response = $this->http->get($this->getRetailerEndpointUrl("/$id"));
+        $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $returnData = $this->http->jsonDecodeBody($response);
 
         return (new ReturnNormalizer())->denormalize(
