@@ -55,6 +55,18 @@ class Client implements ClientInterface
     }
 
     /**
+     * Authenticate the app at Bol.com Retailer API.
+     *
+     * @return self
+     */
+    public function authenticate(): self
+    {
+        $this->auth->authenticate();
+
+        return $this;
+    }
+
+    /**
      * Get a new Endpoints\Orders instance.
      *
      * @return Orders
