@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace JeffreyKroonen\BolRetailer;
 
 use JeffreyKroonen\BolRetailer\Endpoints\Orders;
