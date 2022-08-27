@@ -1,3 +1,7 @@
+[![PHPUnit](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeffrey-kroonen%2Fbol-retailer-api-php%2Fbadge%3Fref%3Dmain&label=PHPUnit&style=for-the-badge)](https://actions-badge.atrox.dev/jeffrey-kroonen/bol-retailer-api-php/goto?ref=main)
+[![GitHub issues](https://img.shields.io/github/issues/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/issues)
+[![GitHub forks](https://img.shields.io/github/forks/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/network)
+[![GitHub stars](https://img.shields.io/github/stars/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/stargazers)
 ![GitHub](https://img.shields.io/github/license/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)
 
 <h3 align="center">
