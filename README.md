@@ -51,6 +51,16 @@ $ordersEndpoint->orders(); // Retrieve a Paginate class instance containing orde
 $ordersEndpoint->orderById(id: '<order-id>'); // Retrieve an order by id
 ```
 
+To get the data from the currently authenticated application, you can use the accessor on the `Client`
+```php
+$client->getAuth(); // Returns an instance of Auth
+```
+
+You can get as example the Unix timestamp when the authentication will expire
+```php
+$client->getAuth()->getExpiresIn(); // 1661613446
+```
+
 The authentication process will be done automatically when instantiating the `Client` class for the first time. You will receive the exception `UnauthorizedException` when the request is no longer authorized. You can check manually when the authentication will expire
 ```php
 $client->isAuthenticated();
