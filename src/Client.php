@@ -45,6 +45,16 @@ class Client implements ClientInterface
     }
 
     /**
+     * Determine if the application is authenticated.
+     *
+     * @return boolean
+     */
+    public function isAuthenticated(): bool
+    {
+        return $this->auth->isAuthenticated();
+    }
+
+    /**
      * Get a new Endpoints\Orders instance.
      *
      * @return Orders
