@@ -36,7 +36,7 @@ class Auth extends BaseUtility
     private int $expiresIn;
 
     /**
-     * Create a new AuthClient instance.
+     * Create a new Auth instance.
      *
      * @param string|null $bolClientId
      * @param string|null $bolClientSecret

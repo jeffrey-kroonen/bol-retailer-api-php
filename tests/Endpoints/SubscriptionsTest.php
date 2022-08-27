@@ -192,6 +192,59 @@ class SubscriptionsTest extends TestCase implements MockInterface
         $subscriptionEndpoint->subscribe([ResourceTypes::PROCESS_STATUS->value], 'https://example.com');
     }
 
+    public function testItShouldBePossibleToDeleteASubscription(): void
+    {
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockSubscriptionDeletionHandler = $this->mockSubscriptionDeletionResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        // When
+        $subscriptionEndpoint = new Subscriptions(auth: $auth);
+        $subscriptionEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockSubscriptionDeletionHandler)]))
+        );
+        $processStatus = $subscriptionEndpoint->delete(self::MOCK_BOL_SUBSCRIPTION_ID);
+
+        // Then
+        $this->assertInstanceOf(ProcessStatus::class, $processStatus);
+        $this->assertIsString($processStatus->getProcessStatusId());
+        $this->assertEquals(EventTypes::DELETE_SUBSCRIPTION->value, $processStatus->getEventType());
+        $this->assertEquals(StatusTypes::PENDING->value, $processStatus->getStatus());
+        $this->assertInstanceOf(DateTime::class, $processStatus->getCreateTimestamp());
+        $this->assertIsArray($processStatus->getLinks());
+    }
+
+    public function testItShouldNotBePossibleToDeleteASubscriptionWhenUnauthorized(): void
+    {
+        // Then
+        $this->expectException(UnauthorizedException::class);
+
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockSubscriptionDeletionHandler = $this->mockSubscriptionDeletionResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        $subscriptionEndpoint = new Subscriptions(auth: $auth);
+        $subscriptionEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockSubscriptionDeletionHandler)]))
+        );
+
+        // When
+        $authReflection = new ReflectionObject($auth);
+        $expiresInReflectionProperty = $authReflection->getProperty('expiresIn');
+        $expiresInReflectionProperty->setAccessible(true);
+        $expiresInReflectionProperty->setValue($auth, time() - 301);
+
+        $subscriptionEndpoint->delete(self::MOCK_BOL_SUBSCRIPTION_ID);
+    }
+
     public function testSignatureKeysShouldBeRetrieved(): void
     {
         // Given
