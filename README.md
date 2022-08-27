@@ -51,6 +51,16 @@ $ordersEndpoint->orders(); // Retrieve a Paginate class instance containing orde
 $ordersEndpoint->orderById(id: '<order-id>'); // Retrieve an order by id
 ```
 
+The authentication process will be done automatically when instantiating the `Client` class for the first time. You will receive the exception `UnauthorizedException` when the request is no longer authorized. You can check manually when the authentication will expire
+```php
+$client->isAuthenticated();
+```
+
+Authenticate at the Bol.com Retailer API
+```php
+$client->authenticate();
+```
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
