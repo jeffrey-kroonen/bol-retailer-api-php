@@ -1,12 +1,32 @@
+
+<div style="display: flex">
+
+<div style="margin-right: .5rem">
+
 [![PHPUnit](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeffrey-kroonen%2Fbol-retailer-api-php%2Fbadge%3Fref%3Dmain&label=PHPUnit&style=for-the-badge)](https://actions-badge.atrox.dev/jeffrey-kroonen/bol-retailer-api-php/goto?ref=main)
+
+</div>
+<div style="margin-right: .5rem">
 
 [![GitHub issues](https://img.shields.io/github/issues/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/issues)
 
+</div>
+<div style="margin-right: .5rem">
+
 [![GitHub forks](https://img.shields.io/github/forks/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/network)
+
+</div>
+<div style="margin-right: .5rem">
 
 [![GitHub stars](https://img.shields.io/github/stars/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)](https://github.com/jeffrey-kroonen/bol-retailer-api-php/stargazers)
 
+</div>
+<div style="margin-right: .5rem">
+
 ![GitHub](https://img.shields.io/github/license/jeffrey-kroonen/bol-retailer-api-php?style=for-the-badge)
+
+</div>
+</div>
 
 <h3 align="center">
     Bol.com Retailer API PHP
