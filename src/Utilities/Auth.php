@@ -91,6 +91,16 @@ class Auth extends BaseUtility
     }
 
     /**
+     * Accessor for the expiresIn property.
+     *
+     * @return integer
+     */
+    public function getExpiresIn(): int
+    {
+        return $this->expiresIn;
+    }
+
+    /**
      * Authenticate the app at Bol.com Retailer API.
      *
      * @return self

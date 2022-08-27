@@ -45,6 +45,17 @@ class Client implements ClientInterface
     }
 
     /**
+     * Accessor for the auth property.
+     *
+     * @param Auth $auth
+     * @return self
+     */
+    public function getAuth(): Auth
+    {
+        return $this->auth;
+    }
+
+    /**
      * Determine if the application is authenticated.
      *
      * @return boolean
