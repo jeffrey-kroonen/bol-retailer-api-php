@@ -9,12 +9,12 @@
 </h3>
 
 <p align="center">
-    An PHP Client to interact with the Bol.com Retailer API
+    An PHP Client to interact with the Bol.com Retailer API v7
 </p>
 
 ## About the project
 
-The project is built with php v8.1.4 and will is not complete. Only the endpoints I needed for my project are included in this project. Their will be no future releases coming from my side, besides when the Bol.com Retailer API releases a new version. Or if I have to make use of more endpoints.
+The project is built with php v8.1.4 and is not complete. Only the endpoints I needed for my project are included in this project. Their will be no future releases coming from my side, besides when the Bol.com Retailer API releases a new version or if I have to make use of more endpoints.
 
 Feel free to fork this project and [contribute](#Contributing) your work to improve the project.
 
