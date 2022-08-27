@@ -12,6 +12,7 @@ use JeffreyKroonen\BolRetailer\Utilities\Auth;
 interface ClientInterface
 {
     public function setAuth(Auth $auth): self;
+    public function getAuth(): Auth;
     public function isAuthenticated(): bool;
     public function authenticate(): self;
     public function orders(): Orders;
