@@ -96,4 +96,20 @@ final class ClientTest extends TestCase implements MockInterface
         // Then
         $this->assertInstanceOf(Auth::class, $client->getAuth());
     }
+
+    public function testItShouldBePossibleToDisableAuthenticationOnInitializationOfAuthProperty(): void
+    {
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+
+        // When
+        $client = new Client();
+        $client->disableInitialAuthentication();
+        $client->setAuth(auth: $auth);
+
+        // Then
+        $this->assertInstanceOf(Auth::class, $client->getAuth());
+    }
 }
