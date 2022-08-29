@@ -12,6 +12,7 @@ use JeffreyKroonen\BolRetailer\Utilities\Auth;
 
 class Client implements ClientInterface
 {
+    private bool $initialAuthentication = true;
     private Auth $auth;
 
     /**
@@ -39,7 +40,11 @@ class Client implements ClientInterface
      */
     public function setAuth(Auth $auth): self
     {
-        $this->auth = $auth->authenticate();
+        $this->auth = $auth;
+
+        if ($this->initialAuthentication) {
+            $this->auth->authenticate();
+        }
 
         return $this;
     }
@@ -73,6 +78,19 @@ class Client implements ClientInterface
     public function authenticate(): self
     {
         $this->auth->authenticate();
+
+        return $this;
+    }
+
+    /**
+     * Disable calling the method Auth::authentication() when calling Client::setAuth()
+     *
+     * @deprecated Will be removed in the future when we don't authenticate on initialization.
+     * @return self
+     */
+    public function disableInitialAuthentication(): self
+    {
+        $this->initialAuthentication = false;
 
         return $this;
     }
