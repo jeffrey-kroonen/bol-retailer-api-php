@@ -18,6 +18,12 @@ The project is built with php v8.1.4 and is not complete. Only the endpoints I n
 
 Feel free to fork this project and [contribute](#Contributing) your work to improve the project.
 
+### Supported endpoints
+
+- Orders
+- Returns
+- Subscriptions
+
 ## Getting Started
 
 ### Installation
@@ -34,7 +40,7 @@ Create a new instance of the `Client`
 
 ```php
 $client = new Client(
-    bolClientId: '<client-id',
+    bolClientId: '<client-id>',
     bolClientSecret: '<client-secret>'
 );
 ```
