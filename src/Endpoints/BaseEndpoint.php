@@ -44,9 +44,9 @@ abstract class BaseEndpoint
      */
     protected string $credentials;
 
-    public function __construct(?Auth $auth)
+    public function __construct(?Auth $auth = null)
     {
-        if (isset($auth)) {
+        if ($auth) {
             $this->setAuth($auth);
 
             if (! isset($this->http)) {
