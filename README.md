@@ -45,6 +45,27 @@ $client = new Client(
 );
 ```
 
+Authenticate at the Bol.com Retailer API
+```php
+$client->authenticate();
+```
+
+After you have been authenticated at the Bol.com Retailer API, you can get the auth data, such as client id, client secret and access token. These data can be used in future requests. It's good practice to save the access token in your local database to reuse the next time
+```php
+$client->getAuth();
+```
+
+Set The access token when instanciating `Client`
+
+```php
+$client = new Client(
+    bolClientId: '<client-id>',
+    bolClientSecret: '<client-secret>',
+    accessToken: '<access-token>'
+);
+```
+
+
 Next you can call the [endpoint](https://api.bol.com/retailer/public/redoc/v7/retailer.html) which you will want to make use of
 
 ```php
@@ -67,14 +88,9 @@ You can get as example the Unix timestamp when the authentication will expire
 $client->getAuth()->getExpiresIn(); // 1661613446
 ```
 
-The authentication process will be done automatically when instantiating the `Client` class for the first time. You will receive the exception `UnauthorizedException` when the request is no longer authorized. You can check manually when the authentication will expire
+You will receive the exception `UnauthorizedException` when the request is no longer authorized. You can check manually when the authentication will expire
 ```php
 $client->isAuthenticated();
-```
-
-Authenticate at the Bol.com Retailer API
-```php
-$client->authenticate();
 ```
 
 ## Contributing
