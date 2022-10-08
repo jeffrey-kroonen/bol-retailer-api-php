@@ -58,7 +58,7 @@ class Auth extends BaseUtility
         }
 
         if (! is_null($accessToken)) {
-            $this->setBolClientSecret($accessToken);
+            $this->setAccessToken($accessToken);
         }
     }
 
