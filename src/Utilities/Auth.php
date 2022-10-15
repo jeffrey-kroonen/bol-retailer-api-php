@@ -154,7 +154,7 @@ class Auth extends BaseUtility
      */
     public function isAuthenticated(): bool
     {
-        if (! isset($this->accessToken)) {
+        if (! isset($this->accessToken, $this->expiresIn)) {
             return false;
         }
 

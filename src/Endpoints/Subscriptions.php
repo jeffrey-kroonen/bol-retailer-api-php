@@ -87,6 +87,8 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
             'url' => $this->validatedUrl($url),
         ]);
         $processStatusData = $this->http->jsonDecodeBody($response);
+        // The entityId will not be set when creating subscription and ProcessStatus is returned.
+        $processStatusData['entityId'] = -1;
 
         return (new ProcessStatusNormalizer())->denormalize(
             data: $processStatusData,
