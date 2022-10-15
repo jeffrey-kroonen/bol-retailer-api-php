@@ -40,9 +40,13 @@ class Auth extends BaseUtility
      *
      * @param string|null $bolClientId
      * @param string|null $bolClientSecret
+     * @param string|null $accessToken
      */
-    public function __construct(?string $bolClientId = null, ?string $bolClientSecret = null)
-    {
+    public function __construct(
+        ?string $bolClientId = null,
+        ?string $bolClientSecret = null,
+        ?string $accessToken = null,
+    ) {
         parent::__construct();
 
         if (! is_null($bolClientId)) {
@@ -51,6 +55,10 @@ class Auth extends BaseUtility
 
         if (! is_null($bolClientId)) {
             $this->setBolClientSecret($bolClientSecret);
+        }
+
+        if (! is_null($accessToken)) {
+            $this->setAccessToken($accessToken);
         }
     }
 
@@ -88,6 +96,19 @@ class Auth extends BaseUtility
     public function getAccessToken(): string
     {
         return $this->accessToken;
+    }
+
+    /**
+     * Mutator for the accessToken property.
+     *
+     * @param string $accessToken
+     * @return self
+     */
+    public function setAccessToken(string $accessToken): self
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
     }
 
     /**
