@@ -27,10 +27,10 @@ class Client implements ClientInterface
         ?string $accessToken = null
     ) {
         if (! is_null($bolClientId) && ! is_null($bolClientSecret)) {
-            $this->auth = (new Auth(
+            $this->auth = new Auth(
                 bolClientId: $bolClientId,
                 bolClientSecret: $bolClientSecret
-            ));
+            );
 
             if (! is_null($accessToken)) {
                 $this->auth->setAccessToken($accessToken);
