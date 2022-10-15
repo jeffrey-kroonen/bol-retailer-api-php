@@ -67,7 +67,6 @@ $client = new Client(
 );
 ```
 
-
 Next you can call the [endpoint](https://api.bol.com/retailer/public/redoc/v7/retailer.html) you want to use
 
 ```php
