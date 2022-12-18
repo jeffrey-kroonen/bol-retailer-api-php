@@ -14,6 +14,8 @@ class Client implements ClientInterface
 {
     private Auth $auth;
 
+    private bool $demoModeEnabled = false;
+
     /**
      * Create a new Client instance.
      *
@@ -84,6 +86,13 @@ class Client implements ClientInterface
         return $this;
     }
 
+    public function enableDemoMode(): self
+    {
+        $this->demoModeEnabled = true;
+
+        return $this;
+    }
+
     /**
      * Get a new Endpoints\Orders instance.
      *
@@ -91,7 +100,12 @@ class Client implements ClientInterface
      */
     public function orders(): Orders
     {
-        return new Orders(auth: $this->auth);
+        $endpoint = new Orders(auth: $this->auth);
+        if ($this->demoModeEnabled) {
+            $endpoint->enableDemoMode();
+        }
+
+        return $endpoint;
     }
 
     /**
@@ -101,7 +115,12 @@ class Client implements ClientInterface
      */
     public function returns(): Returns
     {
-        return new Returns(auth: $this->auth);
+        $endpoint = new Returns(auth: $this->auth);
+        if ($this->demoModeEnabled) {
+            $endpoint->enableDemoMode();
+        }
+
+        return $endpoint;
     }
 
     /**
@@ -111,6 +130,11 @@ class Client implements ClientInterface
      */
     public function subscriptions(): Subscriptions
     {
-        return new Subscriptions(auth: $this->auth);
+        $endpoint = new Subscriptions(auth: $this->auth);
+        if ($this->demoModeEnabled) {
+            $endpoint->enableDemoMode();
+        }
+
+        return $endpoint;
     }
 }
