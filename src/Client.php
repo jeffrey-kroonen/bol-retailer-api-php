@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JeffreyKroonen\BolRetailer;
 
 use JeffreyKroonen\BolRetailer\Endpoints\Orders;
+use JeffreyKroonen\BolRetailer\Endpoints\ProcessStatus;
 use JeffreyKroonen\BolRetailer\Endpoints\Returns;
 use JeffreyKroonen\BolRetailer\Endpoints\Subscriptions;
 use JeffreyKroonen\BolRetailer\Interfaces\ClientInterface;
@@ -131,6 +132,16 @@ class Client implements ClientInterface
     public function subscriptions(): Subscriptions
     {
         $endpoint = new Subscriptions(auth: $this->auth);
+        if ($this->demoModeEnabled) {
+            $endpoint->enableDemoMode();
+        }
+
+        return $endpoint;
+    }
+
+    public function processStatus(): ProcessStatus
+    {
+        $endpoint = new ProcessStatus(auth: $this->auth);
         if ($this->demoModeEnabled) {
             $endpoint->enableDemoMode();
         }
