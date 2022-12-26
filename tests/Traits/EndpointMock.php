@@ -283,4 +283,32 @@ trait EndpointMock
             ')
         ]);
     }
+
+    public function mockProcessStatusByIdResponseHandler(): MockHandler
+    {
+        return new MockHandler([
+            new Response(HttpResponse::HTTP_OK, [
+                'Accept' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
+                'Content-Type' => Http::HEADER_APPLICATION_CONTENT_TYPE_JSON,
+                'Authorization' => sprintf('%s %s', HeaderAuthorizationTypes::BEARER->value, self::MOCK_CREDENTIALS),
+            ], '
+            {
+                "processStatusId": "1234567",
+                "entityId": "987654321",
+                "eventType": "CONFIRM_SHIPMENT",
+                "description": "Example process status description for processing 987654321.",
+                "status": "SUCCESS",
+                "errorMessage": "Example process status error message.",
+                "createTimestamp": "2018-11-14T09:34:41+01:00",
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.bol.com/shared/process-status/1234567",
+                        "method": "GET"
+                    }
+                ]
+            }
+            '),
+        ]);
+    }
 }
