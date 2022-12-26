@@ -22,7 +22,8 @@
     "require": {
         "guzzlehttp/guzzle": "^7.4",
         "jane-php/json-schema-runtime": "^7.3",
-        "symfony/http-foundation": "^6.1"
+        "symfony/http-foundation": "^6.1",
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "vimeo/psalm": "^4.26",
