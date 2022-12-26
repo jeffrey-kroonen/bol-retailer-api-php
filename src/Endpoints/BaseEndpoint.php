@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
+use JeffreyKroonen\BolRetailer\Enums\ApiTypes;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\AuthNotSetException;
 use JeffreyKroonen\BolRetailer\Exceptions\EndpointNotSetException;
@@ -16,6 +17,7 @@ abstract class BaseEndpoint
     private const BASE_URL = 'https://api.bol.com';
     private const RETAILER_API_ENDPOINT = '/retailer';
     private const RETAILER_DEMO_API_ENDPOINT = '/retailer-demo';
+    private const SHARED_API_ENDPOINT = '/shared';
 
     /**
      * Determines if the demo environment of Bol.com Retailer API should be used.
@@ -23,6 +25,11 @@ abstract class BaseEndpoint
      * @var boolean
      */
     private readonly bool $demoModeEnabled;
+
+    /**
+     * @var string
+     */
+    protected string $api;
 
     /**
      * @var string
@@ -73,10 +80,17 @@ abstract class BaseEndpoint
             throw new EndpointNotSetException();
         }
 
+        if (! isset($this->api)) {
+            $this->api = ApiTypes::RETAILER->value;
+        }
+
+        $baseEndpoint = match ($this->api) {
+            ApiTypes::RETAILER->value => isset($this->demoModeEnabled) && $this->demoModeEnabled ? self::RETAILER_DEMO_API_ENDPOINT: self::RETAILER_API_ENDPOINT,
+            ApiTypes::SHARED->value => self::SHARED_API_ENDPOINT
+        };
+
         return self::BASE_URL
-            . (isset($this->demoModeEnabled) && $this->demoModeEnabled
-                ? self::RETAILER_DEMO_API_ENDPOINT
-                : self::RETAILER_API_ENDPOINT)
+            . $baseEndpoint
             . $this->endpoint
             . $subPath;
     }
