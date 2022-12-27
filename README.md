@@ -23,6 +23,7 @@ Feel free to fork this project and [contribute](#Contributing) your work to impr
 - Orders
 - Returns
 - Subscriptions
+- Process status
 
 ## Getting Started
 

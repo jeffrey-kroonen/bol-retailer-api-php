@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
-use Enums\Subscriptions\ResourceTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\KeySet;
 use JeffreyKroonen\BolRetailer\Generated\Model\KeySetResponse;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus;
@@ -17,6 +16,7 @@ use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionResponseNormaliz
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionsResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\SubscriptionsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Helpers;
+use Throwable;
 
 class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
 {
@@ -27,7 +27,7 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     /**
      * Get push notification subscriptions.
      *
-     * @return array
+     * @return array<SubscriptionResponse>
      */
     public function subscriptions(): array
     {
@@ -36,17 +36,20 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl());
         $subscriptionsData = $this->http->jsonDecodeBody($response);
 
-        $subscriptionsResponse = (new SubscriptionsResponseNormalizer())-> denormalize(
+        $subscriptionsResponse = (new SubscriptionsResponseNormalizer())->denormalize(
             data: $subscriptionsData,
             class: SubscriptionsResponse::class
         );
 
         $subscriptions = [];
-        foreach ($subscriptionsResponse->getSubscriptions() as $subscription) {
-            $subscriptions[] = (new SubscriptionResponseNormalizer)->denormalize(
-                data: $subscription,
-                class: SubscriptionResponse::class
-            );
+        try {
+            foreach ($subscriptionsResponse->getSubscriptions() as $subscription) {
+                $subscriptions[] = (new SubscriptionResponseNormalizer)->denormalize(
+                    data: $subscription,
+                    class: SubscriptionResponse::class
+                );
+            }
+        } catch (Throwable) {
         }
 
         return $subscriptions;
