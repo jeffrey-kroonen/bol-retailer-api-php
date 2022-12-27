@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JeffreyKroonen\BolRetailer\Tests\Endpoints;
 
 use GuzzleHttp\Client as HttpClient;
