@@ -13,7 +13,6 @@ use JeffreyKroonen\BolRetailer\Exceptions\RateLimitException;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
 use JeffreyKroonen\BolRetailer\Exceptions\ServerException;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
-use JeffreyKroonen\BolRetailer\Interfaces\ResponseInterface as InterfacesResponseInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Response as UtilitiesResponse;
 use Psr\Http\Message\ResponseInterface;
 
@@ -42,9 +41,9 @@ class Http
     private ?array $body = [];
 
     /**
-     * @var UtilitiesResponse $response
+     * @var Response $response
      */
-    private InterfacesResponseInterface $response;
+    private ResponseInterface $response;
 
     public function __construct()
     {
@@ -123,9 +122,13 @@ class Http
         return $this;
     }
 
-    public function getResponse(): UtilitiesResponse
+    public function getResponse(): ?UtilitiesResponse
     {
-        return $this->response;
+        if (! isset($this->response)) {
+            return null;
+        }
+
+        return (new UtilitiesResponse())->setPsrResponse($this->response);
     }
 
     /**
