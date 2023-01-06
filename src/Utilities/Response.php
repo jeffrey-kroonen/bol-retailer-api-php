@@ -9,7 +9,14 @@ use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 
 class Response implements ResponseInterface
 {
-    protected HttpResponseInterface $response;
+    protected HttpResponseInterface $psrResponse;
+
+    public function setPsrResponse(HttpResponseInterface $psrResponse): self
+    {
+        $this->psrResponse = $psrResponse;
+
+        return $this;
+    }
 
     public function header(?string $header = null): ?string
     {
@@ -17,13 +24,13 @@ class Response implements ResponseInterface
             return $this->headers();
         }
 
-        return $this->response->hasHeader($header) ? $this->response->getHeader($header)[0] : null;
+        return $this->psrResponse->hasHeader($header) ? $this->psrResponse->getHeader($header)[0] : null;
     }
 
     public function headers(): array
     {
         $headers = [];
-        foreach ($this->response->getHeaders() as $name => $value) {
+        foreach ($this->psrResponse->getHeaders() as $name => $value) {
             $headers[$name] = implode(', ', $value);
         }
 
@@ -32,7 +39,7 @@ class Response implements ResponseInterface
 
     public function json(): array
     {
-        $data = json_decode((string) $this->response->getBody(), true);
+        $data = json_decode((string) $this->psrResponse->getBody(), true);
         if (json_last_error() === JSON_ERROR_NONE) {
             return $data;
         }
@@ -42,6 +49,6 @@ class Response implements ResponseInterface
 
     public function statusCode(): int
     {
-        return $this->response->getStatusCode();
+        return $this->psrResponse->getStatusCode();
     }
 }
