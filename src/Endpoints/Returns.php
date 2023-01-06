@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
-use JeffreyKroonen\BolRetailer\Enums\Orders\FulfilmentMethods;
+use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\_Return;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ReturnNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\ReturnsInterface;
@@ -20,13 +20,13 @@ class Returns extends BaseEndpoint implements ReturnsInterface
      *
      * @param int $page
      * @param bool $handled
-     * @param FulfilmentMethods $fulfillmentMethod
+     * @param FulfilmentTypes $fulfillmentMethod
      * @return Paginate
      */
     public function returns(
         int $page = 1,
         bool $handled = false,
-        FulfilmentMethods $fulfillmentMethod = FulfilmentMethods::FBR
+        FulfilmentTypes $fulfillmentMethod = FulfilmentTypes::FBR
     ): Paginate {
         $this->checkAuthentication();
 

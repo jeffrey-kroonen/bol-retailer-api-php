@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
-use JeffreyKroonen\BolRetailer\Enums\Orders\FulfilmentMethods;
+use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Enums\Orders\StatusTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\Order;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderNormalizer;
@@ -19,13 +19,13 @@ class Orders extends BaseEndpoint implements OrdersInterface
      * Gets a paginated list of all orders for a retailer.
      *
      * @param int $page
-     * @param FulfilmentMethods $fulfillmentMethod
+     * @param FulfilmentTypes $fulfillmentMethod
      * @param StatusTypes $status
      * @return Paginate
      */
     public function orders(
         int $page = 1,
-        FulfilmentMethods $fulfillmentMethod = FulfilmentMethods::FBR,
+        FulfilmentTypes $fulfillmentMethod = FulfilmentTypes::FBR,
         StatusTypes $status = StatusTypes::OPEN
     ): Paginate {
         $this->checkAuthentication();

@@ -8,7 +8,7 @@ use DateTime;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Returns;
-use JeffreyKroonen\BolRetailer\Enums\Orders\FulfilmentMethods;
+use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Generated\Model\_Return;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
@@ -99,8 +99,8 @@ final class ReturnsTest extends TestCase implements MockInterface
         $this->assertIsString($return->getReturnId());
         $this->assertInstanceOf(DateTime::class, $return->getRegistrationDateTime());
         $this->assertTrue(in_array($return->getFulfilmentMethod(), [
-            FulfilmentMethods::FBR->value,
-            FulfilmentMethods::FBB->value,
+            FulfilmentTypes::FBR->value,
+            FulfilmentTypes::FBB->value,
         ]));
         $this->assertIsArray($return->getReturnItems());
         $this->assertIsString($return->getReturnItems()[0]['orderId']);
