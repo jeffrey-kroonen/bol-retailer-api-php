@@ -13,6 +13,7 @@ use JeffreyKroonen\BolRetailer\Exceptions\RateLimitException;
 use JeffreyKroonen\BolRetailer\Exceptions\ResponseException;
 use JeffreyKroonen\BolRetailer\Exceptions\ServerException;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
+use JeffreyKroonen\BolRetailer\Utilities\Response as UtilitiesResponse;
 use Psr\Http\Message\ResponseInterface;
 
 class Http
@@ -38,6 +39,11 @@ class Http
      * @var ?array $body
      */
     private ?array $body = [];
+
+    /**
+     * @var Response $response
+     */
+    private ResponseInterface $response;
 
     public function __construct()
     {
@@ -116,6 +122,15 @@ class Http
         return $this;
     }
 
+    public function getResponse(): ?UtilitiesResponse
+    {
+        if (! isset($this->response)) {
+            return null;
+        }
+
+        return (new UtilitiesResponse())->setPsrResponse($this->response);
+    }
+
     /**
      * Make a HTTP GET request.
      *
@@ -132,7 +147,7 @@ class Http
     public function get(string $url, $query = []): Response
     {
         try {
-            $response = $this->httpClient->get($url, [
+            $this->response = $this->httpClient->get($url, [
                 'headers' => $this->headers,
                 'query' => ! empty($query) ? $query : $this->query,
             ]);
@@ -140,7 +155,7 @@ class Http
             $this->handleBadResponseException($badResponseException);
         }
 
-        return $response;
+        return $this->response;
     }
 
     /**
@@ -159,7 +174,7 @@ class Http
     public function post(string $url, $body = [], $query = []): Response
     {
         try {
-            $response = $this->httpClient->post($url, [
+            $this->response = $this->httpClient->post($url, [
                 'headers' => $this->headers,
                 'query' => ! empty($query) ? $query : $this->query,
                 'json' => ! empty($body) ? $body : $this->body,
@@ -168,7 +183,7 @@ class Http
             $this->handleBadResponseException($badResponseException);
         }
 
-        return $response;
+        return $this->response;
     }
 
     /**
@@ -187,7 +202,7 @@ class Http
     public function delete(string $url, $query = []): Response
     {
         try {
-            $response = $this->httpClient->delete($url, [
+            $this->response = $this->httpClient->delete($url, [
                 'headers' => $this->headers,
                 'query' => ! empty($query) ? $query : $this->query,
             ]);
@@ -195,7 +210,7 @@ class Http
             $this->handleBadResponseException($badResponseException);
         }
 
-        return $response;
+        return $this->response;
     }
 
     public function jsonDecodeBody(?ResponseInterface $response): array

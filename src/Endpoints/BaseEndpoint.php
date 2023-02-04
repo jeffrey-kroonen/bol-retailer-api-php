@@ -11,6 +11,7 @@ use JeffreyKroonen\BolRetailer\Exceptions\EndpointNotSetException;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Utilities\Auth;
 use JeffreyKroonen\BolRetailer\Utilities\Http;
+use JeffreyKroonen\BolRetailer\Utilities\Response;
 
 abstract class BaseEndpoint
 {
@@ -127,6 +128,16 @@ abstract class BaseEndpoint
         }
 
         return $this;
+    }
+
+    /**
+     * The accessor for the last response from the HTTP request towards Bol.com.
+     *
+     * @return Response
+     */
+    public function getLastResponse(): Response
+    {
+        return $this->http->getResponse();
     }
 
     /**

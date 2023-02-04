@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace JeffreyKroonen\BolRetailer\Enums\Orders;
+namespace JeffreyKroonen\BolRetailer\Enums;
 
-enum FulfilmentMethods: string
+enum FulfilmentTypes: string
 {
     case FBR = 'FBR';
     case FBB = 'FBB';
