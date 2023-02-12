@@ -11,6 +11,7 @@ use JeffreyKroonen\BolRetailer\Endpoints\Returns;
 use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
 use JeffreyKroonen\BolRetailer\Generated\Model\_Return;
+use JeffreyKroonen\BolRetailer\Generated\Model\ReturnItem;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
 use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
 use JeffreyKroonen\BolRetailer\Tests\Traits\EndpointMock;
@@ -50,6 +51,7 @@ final class ReturnsTest extends TestCase implements MockInterface
         $this->assertIsString($returns->data[0]->getReturnId());
         $this->assertInstanceOf(DateTime::class, $returns->data[0]->getRegistrationDateTime());
         $this->assertIsArray($returns->data[0]->getReturnItems());
+        $this->assertInstanceOf(ReturnItem::class, $returns->data[0]->getReturnItems()[0]);
     }
 
     public function testReturnsShouldNotBeRetrievedWhenUnauthorized(): void
@@ -103,7 +105,8 @@ final class ReturnsTest extends TestCase implements MockInterface
             FulfilmentTypes::FBB->value,
         ]));
         $this->assertIsArray($return->getReturnItems());
-        $this->assertIsString($return->getReturnItems()[0]['orderId']);
+        $this->assertInstanceOf(ReturnItem::class, $return->getReturnItems()[0]);
+        $this->assertIsString($return->getReturnItems()[0]->getOrderId());
     }
 
     public function testReturnByIdShouldNotBeRetrievedWhenUnauthorized(): void
