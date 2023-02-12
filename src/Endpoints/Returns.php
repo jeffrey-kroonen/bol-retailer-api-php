@@ -6,9 +6,14 @@ namespace JeffreyKroonen\BolRetailer\Endpoints;
 
 use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\_Return;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\CustomerDetailsNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\ReturnItemNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ReturnNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\ReturnProcessingResultNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\ReturnReasonNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\ReturnsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Paginate;
+use Symfony\Component\Serializer\Serializer;
 
 class Returns extends BaseEndpoint implements ReturnsInterface
 {
@@ -41,9 +46,9 @@ class Returns extends BaseEndpoint implements ReturnsInterface
         $paginate->setPage($page);
 
         foreach ($returnsData['returns'] as $returnData) {
-            $order = (new ReturnNormalizer())->denormalize(
+            $order = $this->serializer()->denormalize(
                 data: $returnData,
-                class: _Return::class
+                type: _Return::class
             );
 
             $paginate->push($order);
@@ -65,9 +70,22 @@ class Returns extends BaseEndpoint implements ReturnsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $returnData = $this->http->jsonDecodeBody($response);
 
-        return (new ReturnNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $returnData,
-            class: _Return::class
+            type: _Return::class
+        );
+    }
+
+    private function serializer(): Serializer
+    {
+        return new Serializer(
+            normalizers: [
+                new ReturnNormalizer(),
+                new ReturnItemNormalizer(),
+                new ReturnReasonNormalizer(),
+                new ReturnProcessingResultNormalizer(),
+                new CustomerDetailsNormalizer(),
+            ]
         );
     }
 }
