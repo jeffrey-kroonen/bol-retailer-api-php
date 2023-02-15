@@ -29,7 +29,6 @@ class SubscriptionsTest extends TestCase implements MockInterface
     use EndpointMock;
 
     private const MOCK_BOL_SUBSCRIPTION_ID = '1234';
-    private const MOCK_BOL_PROCESS_STATUS_ID = '1';
 
     public function testSubscriptionsShouldBeRetrieved(): void
     {

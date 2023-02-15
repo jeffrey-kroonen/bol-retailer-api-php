@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ee0b03b4a65117dc77ba17dc6c4effd",
+    "content-hash": "d691cb46a5d53e561bc2f5fedf41d21d",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -331,23 +331,23 @@
         },
         {
             "name": "jane-php/json-schema-runtime",
-            "version": "v7.3.1",
+            "version": "v7.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/json-schema-runtime.git",
-                "reference": "46aed7d2ac26b86e713c45091d18b4a591121143"
+                "reference": "493c2e0a8b525ce45d7b488e5df03d3c1e9d8d57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/janephp/json-schema-runtime/zipball/46aed7d2ac26b86e713c45091d18b4a591121143",
-                "reference": "46aed7d2ac26b86e713c45091d18b4a591121143",
+                "url": "https://api.github.com/repos/janephp/json-schema-runtime/zipball/493c2e0a8b525ce45d7b488e5df03d3c1e9d8d57",
+                "reference": "493c2e0a8b525ce45d7b488e5df03d3c1e9d8d57",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "league/uri": "^6.0",
                 "php": "^7.2 || ^8.0",
-                "php-jsonpointer/php-jsonpointer": "^3.0",
+                "php-jsonpointer/php-jsonpointer": "^3.0 || ^4.0",
                 "symfony/serializer": "^4.4 || ^5.0 || ^6.0",
                 "symfony/yaml": "~4.4.9 || ^5.0 || ^6.0"
             },
@@ -387,9 +387,9 @@
             ],
             "description": "Jane runtime Library",
             "support": {
-                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.3.1"
+                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.4.1"
             },
-            "time": "2021-12-16T13:26:58+00:00"
+            "time": "2023-01-09T10:44:57+00:00"
         },
         {
             "name": "league/uri",
@@ -2528,16 +2528,16 @@
         },
         {
             "name": "jane-php/json-schema",
-            "version": "v7.3.1",
+            "version": "v7.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/json-schema.git",
-                "reference": "25d4c2c4f62717cb3ec5d246864b4843648406d6"
+                "reference": "c5db761d9265bbde3a78715951b86e52ef00f1c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/janephp/json-schema/zipball/25d4c2c4f62717cb3ec5d246864b4843648406d6",
-                "reference": "25d4c2c4f62717cb3ec5d246864b4843648406d6",
+                "url": "https://api.github.com/repos/janephp/json-schema/zipball/c5db761d9265bbde3a78715951b86e52ef00f1c7",
+                "reference": "c5db761d9265bbde3a78715951b86e52ef00f1c7",
                 "shasum": ""
             },
             "require": {
@@ -2550,7 +2550,7 @@
                 "symfony/filesystem": "^4.4 || ^5.0 || ^6.0",
                 "symfony/options-resolver": "^4.4 || ^5.0 || ^6.0",
                 "symfony/serializer": "^4.4 || ^5.0 || ^6.0",
-                "symfony/validator": "^5.0 || ^6.0",
+                "symfony/validator": "^5.1 || ^6.0",
                 "symfony/var-dumper": "^4.4 || ^5.0 || ^6.0",
                 "symfony/yaml": "~4.4.9 || ^5.0 || ^6.0"
             },
@@ -2598,9 +2598,9 @@
             ],
             "description": "Generate a serializable / deserializable object model given a json schema",
             "support": {
-                "source": "https://github.com/janephp/json-schema/tree/v7.3.1"
+                "source": "https://github.com/janephp/json-schema/tree/v7.4.1"
             },
-            "time": "2022-08-22T10:52:58+00:00"
+            "time": "2022-10-31T14:29:40+00:00"
         },
         {
             "name": "myclabs/deep-copy",

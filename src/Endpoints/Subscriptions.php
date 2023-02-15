@@ -11,11 +11,13 @@ use JeffreyKroonen\BolRetailer\Generated\Model\SubscriptionResponse;
 use JeffreyKroonen\BolRetailer\Generated\Model\SubscriptionsResponse;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\KeySetResponseNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\LinkNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ProcessStatusNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionsResponseNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\SubscriptionsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Helpers;
+use Symfony\Component\Serializer\Serializer;
 use Throwable;
 
 class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
@@ -27,7 +29,7 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
     /**
      * Get push notification subscriptions.
      *
-     * @return array<SubscriptionResponse>
+     * @return array<int, SubscriptionResponse>
      */
     public function subscriptions(): array
     {
@@ -36,23 +38,12 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl());
         $subscriptionsData = $this->http->jsonDecodeBody($response);
 
-        $subscriptionsResponse = (new SubscriptionsResponseNormalizer())->denormalize(
+        $subscriptionsResponse = $this->serializer()->denormalize(
             data: $subscriptionsData,
-            class: SubscriptionsResponse::class
+            type: SubscriptionsResponse::class
         );
 
-        $subscriptions = [];
-        try {
-            foreach ($subscriptionsResponse->getSubscriptions() as $subscription) {
-                $subscriptions[] = (new SubscriptionResponseNormalizer)->denormalize(
-                    data: $subscription,
-                    class: SubscriptionResponse::class
-                );
-            }
-        } catch (Throwable) {
-        }
-
-        return $subscriptions;
+        return $subscriptionsResponse->getSubscriptions();
     }
 
     /**
@@ -68,9 +59,9 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $subscriptionData = $this->http->jsonDecodeBody($response);
 
-        return (new SubscriptionResponseNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $subscriptionData,
-            class: SubscriptionResponse::class
+            type: SubscriptionResponse::class
         );
     }
 
@@ -91,11 +82,11 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         ]);
         $processStatusData = $this->http->jsonDecodeBody($response);
         // The entityId will not be set when creating subscription and ProcessStatus is returned.
-        $processStatusData['entityId'] = -1;
+        $processStatusData['entityId'] = '-1';
 
-        return (new ProcessStatusNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $processStatusData,
-            class: ProcessStatus::class
+            type: ProcessStatus::class
         );
     }
 
@@ -106,9 +97,9 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->delete($this->getRetailerEndpointUrl("/{$id}"));
         $processStatusData = $this->http->jsonDecodeBody($response);
 
-        return (new ProcessStatusNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $processStatusData,
-            class: ProcessStatus::class
+            type: ProcessStatus::class
         );
     }
 
@@ -124,19 +115,25 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         $response = $this->http->get($this->getRetailerEndpointUrl('/signature-keys'));
         $signatureKeysData = $this->http->jsonDecodeBody($response);
 
-        $signatureKeysResponse = (new KeySetResponseNormalizer())->denormalize(
+        $signatureKeysResponse = $this->serializer()->denormalize(
             data: $signatureKeysData,
-            class: KeySetResponse::class,
+            type: KeySetResponse::class,
         );
 
-        $signatureKeys = [];
-        foreach ($signatureKeysResponse->getSignatureKeys() as $signatureKey) {
-            $signatureKeys[] = (new KeySetNormalizer())->denormalize(
-                data: $signatureKey,
-                class: KeySet::class,
-            );
-        }
+        return $signatureKeysResponse->getSignatureKeys();
+    }
 
-        return $signatureKeys;
+    private function serializer(): Serializer
+    {
+        return new Serializer(
+            normalizers: [
+                new SubscriptionResponseNormalizer(),
+                new SubscriptionsResponseNormalizer(),
+                new ProcessStatusNormalizer(),
+                new KeySetResponseNormalizer(),
+                new KeySetNormalizer(),
+                new LinkNormalizer(),
+            ]
+        );
     }
 }

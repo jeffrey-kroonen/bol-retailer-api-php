@@ -5,4 +5,5 @@ return [
     'root-class' => 'MyModel',
     'namespace' => 'JeffreyKroonen\BolRetailer\Generated',
     'directory' => __DIR__ . '/src/Generated',
+    'use-fixer' => true,
 ];

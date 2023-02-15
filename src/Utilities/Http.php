@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class Http
 {
-    public const  HEADER_APPLICATION_CONTENT_TYPE_JSON = 'application/vnd.retailer.v7+json';
+    public const  HEADER_APPLICATION_CONTENT_TYPE_JSON = 'application/vnd.retailer.v8+json';
 
     /**
      * @var HttpClient
