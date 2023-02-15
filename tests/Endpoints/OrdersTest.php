@@ -9,7 +9,10 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use JeffreyKroonen\BolRetailer\Endpoints\Orders;
 use JeffreyKroonen\BolRetailer\Exceptions\UnauthorizedException;
+use JeffreyKroonen\BolRetailer\Generated\Model\BillingDetails;
 use JeffreyKroonen\BolRetailer\Generated\Model\Order;
+use JeffreyKroonen\BolRetailer\Generated\Model\OrderOrderItem;
+use JeffreyKroonen\BolRetailer\Generated\Model\ShipmentDetails;
 use JeffreyKroonen\BolRetailer\Interfaces\MockInterface;
 use JeffreyKroonen\BolRetailer\Tests\Traits\AuthMock;
 use JeffreyKroonen\BolRetailer\Tests\Traits\EndpointMock;
@@ -96,9 +99,10 @@ final class OrdersTest extends TestCase implements MockInterface
         $this->assertInstanceOf(Order::class, $order);
         $this->assertIsString($order->getOrderId());
         $this->assertInstanceOf(DateTime::class, $order->getOrderPlacedDateTime());
-        $this->assertIsArray($order->getShipmentDetails());
-        $this->assertIsArray($order->getBillingDetails());
+        $this->assertInstanceOf(ShipmentDetails::class, $order->getShipmentDetails());
+        $this->assertInstanceOf(BillingDetails::class, $order->getBillingDetails());
         $this->assertIsArray($order->getOrderItems());
+        $this->assertInstanceOf(OrderOrderItem::class, $order->getOrderItems()[0]);
     }
 
     public function testOrderbyIdShouldNotBeRetrievedWhenUnauthorized(): void

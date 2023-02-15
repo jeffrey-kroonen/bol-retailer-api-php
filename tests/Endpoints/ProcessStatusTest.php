@@ -76,7 +76,7 @@ class ProcessStatusTest extends TestCase implements MockInterface
         $expiresInReflectionProperty->setAccessible(true);
         $expiresInReflectionProperty->setValue($auth, time() - 301);
 
-        $processStatus = $processStatusEndpoint->processStatusById(self::MOCK_PROCESS_STATUS_ID);
+        $processStatusEndpoint->processStatusById(self::MOCK_PROCESS_STATUS_ID);
     }
 }
 
