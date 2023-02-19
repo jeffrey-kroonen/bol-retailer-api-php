@@ -6,9 +6,11 @@ namespace JeffreyKroonen\BolRetailer\Endpoints;
 
 use JeffreyKroonen\BolRetailer\Enums\ApiTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus as BolDotComProcessStatus;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\LinkNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\ProcessStatusNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\ProcessStatusesInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Auth;
+use Symfony\Component\Serializer\Serializer;
 
 class ProcessStatus extends BaseEndpoint implements ProcessStatusesInterface
 {
@@ -34,9 +36,19 @@ class ProcessStatus extends BaseEndpoint implements ProcessStatusesInterface
         $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $processStatusData = $this->http->jsonDecodeBody($response);
 
-        return (new ProcessStatusNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $processStatusData,
-            class: BolDotComProcessStatus::class
+            type: BolDotComProcessStatus::class
+        );
+    }
+
+    private function serializer(): Serializer
+    {
+        return new Serializer(
+            normalizers: [
+                new ProcessStatusNormalizer(),
+                new LinkNormalizer(),
+            ]
         );
     }
 }

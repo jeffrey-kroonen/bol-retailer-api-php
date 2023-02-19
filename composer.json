@@ -21,7 +21,7 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^7.4",
-        "jane-php/json-schema-runtime": "^7.3",
+        "jane-php/json-schema-runtime": "^7.4",
         "symfony/http-foundation": "^6.1",
         "phpseclib/phpseclib": "^3.0"
     },
@@ -29,7 +29,7 @@
         "vimeo/psalm": "^4.26",
         "phpstan/phpstan": "^1.8",
         "friendsofphp/php-cs-fixer": "^3.10",
-        "jane-php/json-schema": "^7.3",
+        "jane-php/json-schema": "^7.4",
         "phpunit/phpunit": "^9.5"
     },
     "minimum-stability": "dev",

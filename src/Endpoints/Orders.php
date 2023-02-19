@@ -7,9 +7,16 @@ namespace JeffreyKroonen\BolRetailer\Endpoints;
 use JeffreyKroonen\BolRetailer\Enums\FulfilmentTypes;
 use JeffreyKroonen\BolRetailer\Enums\Orders\StatusTypes;
 use JeffreyKroonen\BolRetailer\Generated\Model\Order;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\BillingDetailsNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderFulfilmentNormalizer;
 use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderOfferNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderOrderItemNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\OrderProductNormalizer;
+use JeffreyKroonen\BolRetailer\Generated\Normalizer\ShipmentDetailsNormalizer;
 use JeffreyKroonen\BolRetailer\Interfaces\OrdersInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Paginate;
+use Symfony\Component\Serializer\Serializer;
 
 class Orders extends BaseEndpoint implements OrdersInterface
 {
@@ -41,9 +48,9 @@ class Orders extends BaseEndpoint implements OrdersInterface
         $paginate->setPage($page);
 
         foreach ($ordersData['orders'] as $orderData) {
-            $order = (new OrderNormalizer())->denormalize(
+            $order = $this->serializer()->denormalize(
                 data: $orderData,
-                class: Order::class
+                type: Order::class
             );
 
             $paginate->push($order);
@@ -65,9 +72,24 @@ class Orders extends BaseEndpoint implements OrdersInterface
         $response = $this->http->get($this->getRetailerEndpointUrl("/{$id}"));
         $orderData = $this->http->jsonDecodeBody($response);
 
-        return (new OrderNormalizer())->denormalize(
+        return $this->serializer()->denormalize(
             data: $orderData,
-            class: Order::class
+            type: Order::class
+        );
+    }
+
+    private function serializer(): Serializer
+    {
+        return new Serializer(
+            normalizers: [
+                new OrderNormalizer(),
+                new ShipmentDetailsNormalizer(),
+                new BillingDetailsNormalizer(),
+                new OrderOrderItemNormalizer(),
+                new OrderFulfilmentNormalizer(),
+                new OrderOfferNormalizer(),
+                new OrderProductNormalizer(),
+            ]
         );
     }
 }
