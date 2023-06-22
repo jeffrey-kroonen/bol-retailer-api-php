@@ -9,7 +9,7 @@
 </h3>
 
 <p align="center">
-    An PHP Client to interact with the Bol.com Retailer API v8
+    A PHP Client to interact with the Bol.com Retailer API v8
 </p>
 
 ## About the project

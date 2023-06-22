@@ -298,4 +298,25 @@ class SubscriptionsTest extends TestCase implements MockInterface
 
         $subscriptionEndpoint->signatureKeys();
     }
+
+    public function testTriggerPushNotificationShouldRespondWithAProcessStatus(): void
+    {
+        // Given
+        $mockAuthHandler = $this->mockAuthSuccessResponseHandler();
+        $mockSubscriptionHandler = $this->mockSignatureKeysResponseHandler();
+
+        $auth = new Auth(self::MOCK_CLIENT_ID, self::MOCK_CLIENT_SECRET);
+        $auth->getHttp()->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockAuthHandler)]));
+        $auth->authenticate();
+
+        // When
+        $subscriptionEndpoint = new Subscriptions(auth: $auth);
+        $subscriptionEndpoint->setHttp(
+            (new Http())->setHttpClient(new HttpClient(['handler' => HandlerStack::create($mockSubscriptionHandler)]))
+        );
+        $processStatus = $subscriptionEndpoint->triggerPushNotification();
+
+        $this->assertInstanceOf(ProcessStatus::class, $processStatus);
+    }
+
 }

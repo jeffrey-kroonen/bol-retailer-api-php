@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Utilities;
 
+use Carbon\Carbon;
 use JeffreyKroonen\BolRetailer\Enums\HeaderAuthorizationTypes;
 use JeffreyKroonen\BolRetailer\Enums\HeaderGrantTypes;
 use JeffreyKroonen\BolRetailer\Enums\ScopeTypes;
@@ -142,7 +143,9 @@ class Auth extends BaseUtility
         $validated = $this->validateResponse($response);
 
         $this->accessToken = $validated['access_token'];
-        $this->expiresIn = time() + $validated['expires_in'];
+        $this->expiresIn = Carbon::create(
+            $response->getHeader('Date')[0] ?? time()
+        )->unix() + $validated['expires_in'];
 
         return $this;
     }

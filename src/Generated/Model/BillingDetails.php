@@ -54,7 +54,7 @@ class BillingDetails
     /**
      * The extension on the house number.
      *
-     * @var string
+     * @var ?string
      */
     protected $houseNumberExtension;
     /**
@@ -210,7 +210,7 @@ class BillingDetails
     /**
      * The extension on the house number.
      */
-    public function getHouseNumberExtension(): string
+    public function getHouseNumberExtension(): ?string
     {
         return $this->houseNumberExtension;
     }
