@@ -144,7 +144,7 @@ class Auth extends BaseUtility
 
         $this->accessToken = $validated['access_token'];
         $this->expiresIn = Carbon::create(
-            reset($response->getHeader('Date'))
+            $response->getHeader('Date')[0] ?? time()
         )->unix() + $validated['expires_in'];
 
         return $this;
