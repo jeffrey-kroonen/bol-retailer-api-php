@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JeffreyKroonen\BolRetailer\Endpoints;
 
-use JeffreyKroonen\BolRetailer\Generated\Model\KeySet;
 use JeffreyKroonen\BolRetailer\Generated\Model\KeySetResponse;
 use JeffreyKroonen\BolRetailer\Generated\Model\ProcessStatus;
 use JeffreyKroonen\BolRetailer\Generated\Model\SubscriptionResponse;
@@ -18,7 +17,6 @@ use JeffreyKroonen\BolRetailer\Generated\Normalizer\SubscriptionsResponseNormali
 use JeffreyKroonen\BolRetailer\Interfaces\SubscriptionsInterface;
 use JeffreyKroonen\BolRetailer\Utilities\Helpers;
 use Symfony\Component\Serializer\Serializer;
-use Throwable;
 
 class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
 {
@@ -121,6 +119,24 @@ class Subscriptions extends BaseEndpoint implements SubscriptionsInterface
         );
 
         return $signatureKeysResponse->getSignatureKeys();
+    }
+
+    /**
+     * Trigger sending of a test push notification for subscription.
+     *
+     * @return void
+     */
+    public function triggerPushNotification(): ProcessStatus
+    {
+        $this->checkAuthentication();
+
+        $response = $this->http->post($this->getRetailerEndpointUrl('/test/54321'));
+        $processStatusData = $this->http->jsonDecodeBody($response);
+
+        return $this->serializer()->denormalize(
+            data: $processStatusData,
+            type: ProcessStatus::class
+        );
     }
 
     private function serializer(): Serializer
