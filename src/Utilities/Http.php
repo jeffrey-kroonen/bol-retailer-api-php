@@ -259,7 +259,7 @@ class Http
 
         if ($statusCode === 400) {
             throw new BadRequestException($message, $statusCode);
-        } elseif ($statusCode === 401) {
+        } elseif (in_array($statusCode, [401, 403])) {
             throw new UnauthorizedException($message, $statusCode);
         } if ($statusCode === 429) {
             throw new RateLimitException($message, $statusCode);
